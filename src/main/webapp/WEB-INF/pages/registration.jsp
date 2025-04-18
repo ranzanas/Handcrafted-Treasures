@@ -9,81 +9,59 @@
 
 </head>
 <body>
-	<div class = "mainContainer">
-		<h1>Registration Form</h1>
-		<form class= "formContainer" method = "post" action = "Registration" enctype="multipart/form-data">
-			<div class = inputRow>
-				<div class = "leftContainer">
-					<div class = "form-group">
-						<label for = "name">First Name:</label><br>
-						<input type = "text" class = "loginField" name = "firstName"><br>
-					</div>
-					
-					<div class = "form-group">
-						<label for = "name">Username:</label><br>
-						<input type = "text" class = "loginField" name = "username" ><br>
-						
-					</div>
-					
-					<div class = "form-group">
-						<label for = "name">Gender:</label><br>
-						<input type = "text" class = "loginField" name = "gender"><br>
-					</div>
-					
-					<div class = "form-group">
-						<label for = "name">Phone Number:</label><br>
-						<input type = "text" class = "loginField" name = "phoneNumber"><br>
-					</div>
-					
-					<div class = "form-group">
-						<label for = "name">Password:</label><br>
-						<input type = "text" class = "loginField" name = "password"><br>
-					</div>
-				</div>
-				
-				
-				<div class = "rightContainer">
-					<div class = "form-group">
-						<label for = "name">Last Name:</label><br>
-						<input type = "text" class = "loginField" name = "lastName"><br>
-					</div>
-					
-					<div class = "form-group">
-						<label for = "name">Birthday:</label><br>
-						<input type = "date" class = "loginField" name = "dob"><br>
-					</div>
-					
-					<div class = "form-group">
-						<label for = "name">Email:</label><br>
-						<input type = "text" class = "loginField" name = "email"><br>
-					</div>
-					
-					<div class = "form-group">
-						<label for = "name">Subject:</label><br>
-						<select class = 'form-control' name = 'subject'>
-							<option value ='Computing'>Computing</option>
-							<option value ='AI'>AI</option>
-							<option value ='Cyber Security'>Cyber Security</option>
-							<option value ='Multiedia'>Multimedia</option>
-						</select>
-					</div>
-					
-					<div class = "form-group">
-						<label for = "name">Retype Password:</label><br>
-						<input type = "text" class = "loginField" name = "retypePassword"><br>
-					</div>
-				</div>
-			</div>
-			
-	<div class="form-group">
-		<label>Upload Image:</label><br><br>
-		<input type="file" name="image"><br>
-	</div>
-				
-				<div class = "btn-group">
-					<button class = "submitButton">Submit</button>
-				</div>
-		</form>
-	</div>
+	<header>
+    <h1>Handcrafted Treasures</h1>
+  </header>
+
+  <div class="container">
+    <div class="form-container">
+      <div class="image-container"></div>
+
+      <!-- Registration Form -->
+      <div class="form-box" id="register-form">
+        <h2>Create Your Account</h2>
+        <form class= "formContainer" method = "post" action = "Registration" enctype="multipart/form-data">
+          <div class="input-group">
+            <label for="username">Full Name</label>
+            <input type="text" id="fullname" name="fullName" required>
+          </div>
+          <div class="input-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+          <div class="input-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phoneNumber" required>
+          </div>
+          <div class="input-group">
+            <label for="dob">Date of Birth</label>
+            <input type="date" id="dob" name="dob" required>
+          </div>
+          <div class="input-group">
+            <label for="address">Address</label>
+            <textarea id="address" name="address" required></textarea>
+          </div>
+          <div class="input-group">
+            <label for="gender">Gender</label>
+			<input type ="text" name = "gender" required>
+          </div>
+          <div class="input-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required>
+          </div>
+          <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+          </div>
+          <div class="input-group">
+            <label for="confirm-password">Confirm Password</label>
+            <input type="password" id="confirm-password" name="retypePassword" required>
+          </div>
+          <button type="submit" class="btn">Register</button>
+          <p class="switch-form">Already have an account? <a href="login.html">Login</a></p>
+        </form>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

@@ -4,34 +4,30 @@ import java.time.LocalDate;
 
 public class StudentModel {
 	private int id;
-	private String firstName;
-	private String lastName;
+	private String fullName;
 	private String userName;
+	private String address;
 	private LocalDate dob;
 	private String gender;
 	private String email;
 	private String number;
 	private String password;
-	private ProgramModel program;
-	private String imageUrl;
-
 	public StudentModel() {
 	}
 
-	public StudentModel(int id, String firstName, String lastName, String userName, LocalDate dob, String gender,
-			String email, String number, String password, ProgramModel program, String imageUrl) {
+	public StudentModel(int id, String fullName, String userName, String address, LocalDate dob, String gender,
+			String email, String number, String password) {
 		super();
 		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
+		this.fullName = fullName;
 		this.userName = userName;
+		this.address = address;
 		this.dob = dob;
 		this.gender = gender;
 		this.email = email;
 		this.number = number;
 		this.password = password;
-		this.program = program;
-		this.imageUrl = imageUrl;
+
 	}
 
 	public int getId() {
@@ -42,21 +38,15 @@ public class StudentModel {
 		this.id = id;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getFullName() {
+		return fullName;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setFirstName(String fullName) {
+		this.fullName = fullName;
 	}
 
-	public String getLastName() {
-		return lastName;
-	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
 
 	public String getUserName() {
 		return userName;
@@ -64,6 +54,14 @@ public class StudentModel {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+	
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	public LocalDate getDob() {
@@ -105,21 +103,4 @@ public class StudentModel {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-	public ProgramModel getProgram() {
-		return program;
-	}
-
-	public void setProgram(ProgramModel program) {
-		this.program = program;
-	}
-
-	public String getImageUrl() {
-		return imageUrl;
-	}
-
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
-	}
-	
 }

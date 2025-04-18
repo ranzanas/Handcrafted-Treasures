@@ -58,6 +58,9 @@ public class LoginController extends HttpServlet {
 		String password = req.getParameter("password");
 
 		StudentModel studentModel = new StudentModel();
+		studentModel.setUserName(username);  
+	    studentModel.setPassword(password); 
+
 		Boolean loginStatus = loginService.loginUser(studentModel);
 
 		if (loginStatus != null && loginStatus) {

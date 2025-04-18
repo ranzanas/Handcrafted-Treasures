@@ -3,7 +3,6 @@ package com.islington.service;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.islington.config.DbConfig;
@@ -41,29 +40,26 @@ public class RegisterService {
 			return null;
 		}
 
-		String programQuery = "SELECT program_id FROM program WHERE name = ?";
-		String insertQuery = "INSERT INTO student (firstName, lastName, username, birthday, gender, email, number, password, program_id, image_path) "
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		/*String programQuery = "SELECT program_id FROM program WHERE name = ?";*/
+		String insertQuery = "INSERT INTO student (fullName, username,address, birthday, gender, email, number, password) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-		try (PreparedStatement programStmt = dbConn.prepareStatement(programQuery);
-				PreparedStatement insertStmt = dbConn.prepareStatement(insertQuery)) {
+		try (PreparedStatement insertStmt = dbConn.prepareStatement(insertQuery)) {
 
 			// Fetch program ID
-			programStmt.setString(1, studentModel.getProgram().getName());
+			/*programStmt.setString(1, studentModel.getProgram().getName());
 			ResultSet result = programStmt.executeQuery();
-			int programId = result.next() ? result.getInt("program_id") : 1;
+			int programId = result.next() ? result.getInt("program_id") : 1;*/
 
 			// Insert student details
-			insertStmt.setString(1, studentModel.getFirstName());
-			insertStmt.setString(2, studentModel.getLastName());
-			insertStmt.setString(3, studentModel.getUserName());
+			insertStmt.setString(1, studentModel.getFullName());
+			insertStmt.setString(2, studentModel.getUserName());
+			insertStmt.setString(3, studentModel.getAddress());
 			insertStmt.setDate(4, Date.valueOf(studentModel.getDob()));
 			insertStmt.setString(5, studentModel.getGender());
 			insertStmt.setString(6, studentModel.getEmail());
 			insertStmt.setString(7, studentModel.getNumber());
 			insertStmt.setString(8, studentModel.getPassword());
-			insertStmt.setInt(9, programId);
-			insertStmt.setString(10, studentModel.getImageUrl());
 
 			return insertStmt.executeUpdate() > 0;
 		} catch (SQLException e) {

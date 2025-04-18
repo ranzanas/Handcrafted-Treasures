@@ -1,32 +1,46 @@
 @charset "UTF-8";
 
-#footer {
-	background-color: #333; /* Replace with your desired color */
-	color: #fff; /* Replace with your desired text color */
-	padding: 20px;
-	text-align: center;
-}
 
-#footer p {
-	margin-bottom: 10px;
+.footer{
+	background-color: #707346;
+  width: 100%;
+  /*height: 300px;*/
+  display: flex;
+  flex-direction: column;
 }
-
-#footer ul {
-	list-style: none;
-	margin: 0;
-	padding: 0;
+.topFooter {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
-
-#footer li {
-	display: inline-block;
-	margin-right: 10px;
+.aboutHandicrafts,
+.newsletter,
+.contact {
+  width: 25%;
+  height: 80%;
+  text-align: center;
+  padding: 20px;
+  color: #eed7ae;
 }
-
-#footer a {
-	text-decoration: none;
-	color: inherit; /* Inherit font color from footer */
+.email-box,
+.subscribeButton {
+  width: 45%;
+  height: 35px;
+  padding: 0px 10px;
+  background: #eed7ae;
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  margin: 10px;
 }
-
-#footer a:hover {
-	color: #fff; /* Change to your desired hover color */
+.subscribeButton {
+  background-color: #ab571b;
+  color: white;
+  font-size: 18px;
+}
+.bottomFooter {
+  width: 100%;
+  height: 50px;
+  border-top: 2px solid #eed7ae;
 }

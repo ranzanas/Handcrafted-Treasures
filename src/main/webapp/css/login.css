@@ -1,69 +1,117 @@
 @charset "UTF-8";
-body{
-	font-family: sans-serif;
-}
-.mainContainer{
-	width: 60%;
-	height: 495px;
-	display: flex;
-	margin: auto;
-	border: 2px solid white;
-	position: relative;
-	top: 100px;
-	justify-content: space-between;
-	align-items: center;
-	box-shadow: -5px -5px 5px 5px #e0e4e7;
-	border-radius: 15px;
-}
-.photoBox{
-	width: 60%;
-	height: 100%;
-	
-}
-.photoBox img{
-	width: 100%;
-	height: auto;
-	border-radius: 15px;
-}
-.loginContainer{
-	width: 50%;
-	height: 70%;
-}
-.loginContainer h1{
-	text-align: center;
-}
-label{
-	font-size: 20px;
-	font-weight: bolder;
-}
-.form-group{
-    width: 90%;
-    height: auto;
-    padding: 10px;
-    margin: 0px 0px 0px 20px;
-}
-.loginField{
-	width: 95%;
-    height: 35px;
-    margin-top: 8px;
-    font-size: 1.2rem;
-    border-radius: 5px;
-}
-.loginButton{
-    width: 28%;
-    display: block;
-    background: linear-gradient(to right, #146EB4, #0B3D91);
-    color: white;
-    font-family: Lato;
-    height: 45px;
-    font-size: 22px;
-    cursor: pointer;
-    margin: auto;
-    outline: white;
-    border-radius: 20px;
-    border: none;
-}
-.loginButton:hover{
-	background: linear-gradient(to right, #0B3D91, #146EB4);
-	color: white;
-}
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #ffffff; /* Pure White */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    header {
+      width: 100%;
+      background-color: #e63946; /* Tomato Red */
+      padding: 20px 0;
+      text-align: center;
+      color: white;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    header h1 {
+      font-size: 28px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .container {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 90%;
+      max-width: 500px;
+      background-color: #ffffff; /* Pure White */
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      padding: 40px;
+      border: 2px solid #a8dadc; /* Sage Green */
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 22px;
+      color: #1d3557; /* Charcoal */
+    }
+
+    .input-group {
+      margin-bottom: 18px;
+    }
+
+    .input-group label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 6px;
+      color: #1d3557; /* Charcoal */
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #a8dadc; /* Sage Green */
+      border-radius: 8px;
+      font-size: 15px;
+      background-color: #f1faee; /* Warm Cream */
+    }
+
+    .input-group input:focus {
+      border-color: #e63946; /* Tomato Red */
+      outline: none;
+      background-color: #fff;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      background-color: #e63946; /* Tomato Red */
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #1d3557; /* Charcoal */
+    }
+
+    .switch-form {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .switch-form a {
+      color: #e63946; /* Tomato Red */
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .switch-form a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        margin: 20px;
+        padding: 30px;
+      }
+    }
