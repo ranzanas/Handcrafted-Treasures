@@ -43,12 +43,6 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Ranjana/OneDrive/Documents/Java Jar Files/jar_files/jakarta.servlet-api-5.0.0.jar">
-		<attributes>
-			<attribute name="module" value="true"/>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/Ranjana/OneDrive/Documents/Java Jar Files/jar_files/jakarta.xml.bind-api-3.0.0.jar">
 		<attributes>
 			<attribute name="module" value="true"/>

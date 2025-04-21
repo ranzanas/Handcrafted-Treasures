@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.islington.config.DbConfig;
-import com.islington.model.StudentModel;
+import com.islington.model.UserModel;
 import com.islington.util.PasswordUtil;
 
 /**
@@ -38,19 +38,19 @@ public class LoginService {
 	 * @return true if the user credentials are valid, false otherwise; null if a
 	 *         connection error occurs
 	 */
-	public Boolean loginUser(StudentModel studentModel) {
+	public Boolean loginUser(UserModel userModel) {
 		if (isConnectionError) {
 			System.out.println("Connection Error!");
 			return null;
 		}
 
-		String query = "SELECT username, password FROM student WHERE username = ?";
+		String query = "SELECT user_userName, userPassword FROM users WHERE user_userName = ?";
 		try (PreparedStatement stmt = dbConn.prepareStatement(query)) {
-			stmt.setString(1, studentModel.getUserName());
+			stmt.setString(1, userModel.getUserName());
 			ResultSet result = stmt.executeQuery();
 
 			if (result.next()) {
-				return validatePassword(result, studentModel);
+				return validatePassword(result, userModel);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -69,11 +69,11 @@ public class LoginService {
 	 * @return true if the passwords match, false otherwise
 	 * @throws SQLException if a database access error occurs
 	 */
-	private boolean validatePassword(ResultSet result, StudentModel studentModel) throws SQLException {
-		String dbUsername = result.getString("username");
-		String dbPassword = result.getString("password");
+	private boolean validatePassword(ResultSet result, UserModel userModel) throws SQLException {
+		String dbUsername = result.getString("user_userName");
+		String dbPassword = result.getString("userPassword");
 
-		return dbUsername.equals(studentModel.getUserName())
-				&& PasswordUtil.decrypt(dbPassword, dbUsername).equals(studentModel.getPassword());
+		return dbUsername.equals(userModel.getUserName())
+				&& PasswordUtil.decrypt(dbPassword, dbUsername).equals(userModel.getPassword());
 	}
 }

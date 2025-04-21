@@ -13,26 +13,29 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
+import com.islington.util.SessionUtil;
+
 /**
  * Servlet Filter implementation class AuthenticationFilter
  */
-@WebFilter("/AuthenticationFilter")
+@WebFilter(asyncSupported = true, urlPatterns = { "/*" })
 public class AuthenticationFilter extends HttpFilter implements Filter {
+	private static final String LOGIN = "/login";
+	private static final String REGISTER = "/Registration";
+	private static final String HOME = "/home";
+	private static final String ROOT = "/";
+	
+	@Override
+	public void init(FilterConfig filterConfig) throws ServletException {
+		// TODO Auto-generated method stub
+	}
        
-    /**
-     * @see HttpFilter#HttpFilter()
-     */
-    public AuthenticationFilter() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+
 
 	/**
 	 * @see Filter#destroy()
 	 */
-	public void destroy() {
-		// TODO Auto-generated method stub
-	}
+
 
 	/**
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
@@ -44,15 +47,35 @@ public class AuthenticationFilter extends HttpFilter implements Filter {
 		HttpServletResponse res = (HttpServletResponse) response;
 
 		String uri = req.getRequestURI();
-		// pass the request along the filter chain
-		chain.doFilter(request, response);
+
+		if (uri.endsWith(".css") || uri.endsWith(".jpg") || uri.endsWith(".png")|| uri.endsWith(HOME) || uri.endsWith(ROOT)) {
+			chain.doFilter(request, response);
+			return;
+		}
+
+		// Get the session and check if user is logged in
+		boolean isLoggedIn = SessionUtil.getAttribute(req, "username") != null;
+
+		if (!isLoggedIn) {
+			if (uri.endsWith(LOGIN) || uri.endsWith(REGISTER)) {
+				chain.doFilter(request, response);
+			} else {
+				res.sendRedirect(req.getContextPath() + LOGIN);
+			}
+		} else {
+			if (uri.endsWith(LOGIN) || uri.endsWith(REGISTER)) {
+				res.sendRedirect(req.getContextPath() + HOME);
+			} else {
+				chain.doFilter(request, response);
+			}
+		}
 	}
 
-	/**
-	 * @see Filter#init(FilterConfig)
-	 */
-	public void init(FilterConfig fConfig) throws ServletException {
+
+	@Override
+	public void destroy() {
 		// TODO Auto-generated method stub
+		Filter.super.destroy();
 	}
 
 }

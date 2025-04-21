@@ -42,10 +42,6 @@
             <textarea id="address" name="address" required></textarea>
           </div>
           <div class="input-group">
-            <label for="gender">Gender</label>
-			<input type ="text" name = "gender" required>
-          </div>
-          <div class="input-group">
             <label for="username">Username</label>
             <input type="text" id="username" name="username" required>
           </div>

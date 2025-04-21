@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
 
-import com.islington.model.StudentModel;
+import com.islington.model.UserModel;
 import com.islington.service.RegisterService;
 import com.islington.util.PasswordUtil;
 
@@ -68,8 +68,8 @@ public class Registration extends HttpServlet {
         }
 
         try {
-            StudentModel studentModel = extractStudentModel(request);
-            Boolean isAdded = registerService.addStudent(studentModel);
+            UserModel userModel = extractUserModel(request);
+            Boolean isAdded = registerService.addUser(userModel);
 
             if (isAdded == null) {
                 handleError(request, response, "Our server is under maintenance. Please try again later!");
@@ -90,19 +90,21 @@ public class Registration extends HttpServlet {
         req.getRequestDispatcher("/WEB-INF/pages/registration.jsp").forward(req, resp);
     }
 
-    private StudentModel extractStudentModel(HttpServletRequest req) throws Exception {
+    private UserModel extractUserModel(HttpServletRequest req) throws Exception {
         String fullName = req.getParameter("fullName");
         String username = req.getParameter("username");
         String address = req.getParameter("address");
         LocalDate dob = LocalDate.parse(req.getParameter("dob"));
-        String gender = req.getParameter("gender");
         String email = req.getParameter("email");
         String number = req.getParameter("phoneNumber");
         String password = req.getParameter("password");
 
         password = PasswordUtil.encrypt(username, password);
 
-        return new StudentModel(0, fullName, username, address, dob, gender, email, number, password);
+        UserModel user = new UserModel(0, fullName, username, address, dob, email, number, password);
+        user.setRole("Customer");
+        return user;
+        
     }
 
     // Helper methods for validations

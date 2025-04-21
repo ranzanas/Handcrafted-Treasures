@@ -1,41 +1,55 @@
-    <footer class="footer">
-      <div class="topFooter">
-        <div class="aboutHandicrafts">
-          <h3 class="title">About Handicrafts</h3>
-          <p>
-            We offer beautifully handcrafted items made with love and care.
-            Discover the charm of unique artisan product
-          </p>
-        </div>
-        <div class="newsletter">
-          <h3 class="title">Newsletter</h3>
-          <p>Stay up to date with our latest products</p>
-          <input
-            type="email"
-            name=""
-            id=""
-            class="email-box"
-            placeholder="Email-address"
-          />
-          <br />
-          <button class="subscribeButton">Subscribe</button>
-        </div>
-        <div class="contact">
-          <h3 class="title">Contact Us</h3>
-          <p>info@handcraftedtreasures.com</p>
-          <i
-            class="fa-brands fa-square-instagram"
-            style="font-size: 35px; padding: 10px; margin: 10px"
-          ></i>
-          <i
-            class="fa-brands fa-square-pinterest"
-            style="font-size: 35px; padding: 10px; margin: 10px"
-          ></i>
-        </div>
-      </div>
-      <div class="bottomFooter">
-        <p style="text-align: center; color: #eed7ae; margin: 15px">
-          2025 Handcrafted Treasures. All rights reserved
+    <footer class="section-p1">
+      <div class="col">
+        <h2 style="color: #222; font-size: 24px">Handcrafted Treasures</h2>
+        <h4>Contact</h4>
+        <p>
+          <strong>Address:</strong> 562 Wellington Road, Street 32, San
+          Francisco
         </p>
+        <p><strong>Phone:</strong> +977 9822797908</p>
+        <p><strong>Hours:</strong> 10:00 - 18:00, Sun - Fri</p>
+        <div class="follow">
+          <h4>Follow us</h4>
+          <div class="icon">
+            <i class="bx bxl-facebook"></i>
+            <i class="bx bxl-twitter"></i>
+            <i class="bx bxl-instagram"></i>
+            <i class="bx bxl-pinterest-alt"></i>
+            <i class="bx bxl-youtube"></i>
+          </div>
+        </div>
       </div>
-    </footer>
+
+      <div class="col">
+        <h4>About</h4>
+        <a href="#">About us</a>
+        <a href="#">Devlivery Information</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms and Conditions</a>
+        <a href="#">Contact Us</a>
+      </div>
+
+      <div class="col">
+        <h4>My Account</h4>
+        <a href="#">Sign In</a>
+        <a href="#">View Cart</a>
+        <a href="#">My Wishlist</a>
+        <a href="#">Track My Order</a>
+        <a href="#">Help</a>
+      </div>
+
+      <div class="col install">
+        <h4>Install App</h4>
+        <p>From App Store or Google Play</p>
+        <div class="row">
+          <img src="./img/pay/app.jpg" alt="" />
+          <img src="./img/pay/play.jpg" alt="" />
+        </div>
+        <p>Secured Payment Gateways</p>
+        <img src="./img/pay/pay.png" alt="" />
+      </div>
+
+      <div class="copyright">
+        <p>© 2025, Ecommerce Websites</p>
+      </div>
+    </footer>>

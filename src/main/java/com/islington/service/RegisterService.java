@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import com.islington.config.DbConfig;
-import com.islington.model.StudentModel;
+import com.islington.model.UserModel;
 
 /**
  * RegisterService handles the registration of new students. It manages database
@@ -34,15 +34,16 @@ public class RegisterService {
 	 * @param studentModel the student details to be registered
 	 * @return Boolean indicating the success of the operation
 	 */
-	public Boolean addStudent(StudentModel studentModel) {
+	public Boolean addUser(UserModel userModel) {
 		if (dbConn == null) {
 			System.err.println("Database connection is not available.");
 			return null;
 		}
 
 		/*String programQuery = "SELECT program_id FROM program WHERE name = ?";*/
-		String insertQuery = "INSERT INTO student (fullName, username,address, birthday, gender, email, number, password) "
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+		String insertQuery = "INSERT INTO users (userFullName, user_userName, userAddress, userDOB, userEmail, userPhone, userPassword, userRole) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
 
 		try (PreparedStatement insertStmt = dbConn.prepareStatement(insertQuery)) {
 
@@ -51,15 +52,15 @@ public class RegisterService {
 			ResultSet result = programStmt.executeQuery();
 			int programId = result.next() ? result.getInt("program_id") : 1;*/
 
-			// Insert student details
-			insertStmt.setString(1, studentModel.getFullName());
-			insertStmt.setString(2, studentModel.getUserName());
-			insertStmt.setString(3, studentModel.getAddress());
-			insertStmt.setDate(4, Date.valueOf(studentModel.getDob()));
-			insertStmt.setString(5, studentModel.getGender());
-			insertStmt.setString(6, studentModel.getEmail());
-			insertStmt.setString(7, studentModel.getNumber());
-			insertStmt.setString(8, studentModel.getPassword());
+			// Insert user details
+            insertStmt.setString(1, userModel.getFullName());
+            insertStmt.setString(2, userModel.getUserName());
+            insertStmt.setString(3, userModel.getAddress());
+            insertStmt.setDate(4, Date.valueOf(userModel.getDob()));
+            insertStmt.setString(5, userModel.getEmail());
+            insertStmt.setString(6, userModel.getNumber());
+            insertStmt.setString(7, userModel.getPassword());
+            insertStmt.setString(8, userModel.getRole());
 
 			return insertStmt.executeUpdate() > 0;
 		} catch (SQLException e) {
