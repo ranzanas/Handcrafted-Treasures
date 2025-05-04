@@ -19,45 +19,65 @@ public class UserProfile extends HttpServlet {
 
     private UserProfileService userProfileService = new UserProfileService();
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public UserProfile() {
         super();
     }
 
-    /**
-     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-     */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Get the logged-in user's ID from the session (assuming session stores the userId)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         Integer userId = (Integer) request.getSession().getAttribute("userId");
 
-        // If the userId is not in the session, redirect to login page
         if (userId == null) {
-            response.sendRedirect("login.jsp");
+        	response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
 
-        // Fetch user details using the UserProfileService
         UserModel user = userProfileService.getUserDetails(userId);
 
-        // If user is found, set it as an attribute and forward to the JSP
         if (user != null) {
             request.setAttribute("user", user);
             request.getRequestDispatcher("/WEB-INF/pages/userProfile.jsp").forward(request, response);
         } else {
-            // If user is not found, redirect to an error page or show a message
             response.sendRedirect("errorPage.jsp");
         }
     }
 
-    /**
-     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-     */
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-       
-        doGet(request, response);
+    // Updated doPost method for profile update
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        Integer userId = (Integer) request.getSession().getAttribute("userId");
+
+        if (userId == null) {
+        	 response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
+
+        // Collect form data
+        String fullName = request.getParameter("fullName");
+        String userName = request.getParameter("userName");
+        String address = request.getParameter("address");
+        String dob = request.getParameter("dob");
+        String email = request.getParameter("email");
+        String number = request.getParameter("number");
+
+        // Populate UserModel with updated data
+        UserModel user = new UserModel();
+        user.setId(userId);
+        user.setFullName(fullName);
+        user.setUserName(userName);
+        user.setAddress(address);
+        user.setDob(java.time.LocalDate.parse(dob));
+        user.setEmail(email);
+        user.setNumber(number);
+
+        boolean isUpdated = userProfileService.updateUser(user);
+
+        if (isUpdated) {
+            response.sendRedirect("userProfile"); // Refresh to reflect changes
+        } else {
+            request.setAttribute("updateError", "Profile update failed.");
+            doGet(request, response);
+        }
     }
 }
-

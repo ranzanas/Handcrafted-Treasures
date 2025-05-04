@@ -21,7 +21,7 @@ public class UserProfileService {
 	    
 	    public UserModel getUserDetails(int userId) {
 	        UserModel user = null;
-	        String query = "SELECT user_id, userFullName, user_userName, userAddress, userDOB, userEmail, userPhone FROM users WHERE user_userName = ?";
+	        String query = "SELECT userId, userFullName, user_userName, userAddress, userDOB, userEmail, userPhone FROM users WHERE userId = ?";
 	        
 	        try (PreparedStatement stmt = dbConn.prepareStatement(query)) {
 	            stmt.setInt(1, userId);
@@ -29,7 +29,7 @@ public class UserProfileService {
 
 	            if (result.next()) {
 	                user = new UserModel();
-	                user.setId(result.getInt("user_id"));
+	                user.setId(result.getInt("userId"));
 	                user.setFullName(result.getString("userFullName"));
 	                user.setUserName(result.getString("user_userName"));
 	                user.setAddress(result.getString("userAddress"));
@@ -42,4 +42,25 @@ public class UserProfileService {
 	        }
 	        return user;
 	    }
+	    
+	    public boolean updateUser(UserModel user) {
+	        String sql = "UPDATE users SET userFullName = ?, user_userName = ?, userAddress = ?, userDOB = ?, userEmail = ?, userPhone = ? WHERE userId = ?";
+	        
+	        try (PreparedStatement stmt = dbConn.prepareStatement(sql)) {
+	            stmt.setString(1, user.getFullName());
+	            stmt.setString(2, user.getUserName());
+	            stmt.setString(3, user.getAddress());
+	            stmt.setDate(4, java.sql.Date.valueOf(user.getDob()));
+	            stmt.setString(5, user.getEmail());
+	            stmt.setString(6, user.getNumber());
+	            stmt.setInt(7, user.getId());
+
+	            int rowsAffected = stmt.executeUpdate();
+	            return rowsAffected > 0;
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	            return false;
+	        }
+	    }
+
 }

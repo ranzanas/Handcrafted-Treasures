@@ -76,4 +76,19 @@ public class LoginService {
 		return dbUsername.equals(userModel.getUserName())
 				&& PasswordUtil.decrypt(dbPassword, dbUsername).equals(userModel.getPassword());
 	}
+	
+    public Integer getUserIdByUsername(String username) {
+        String sql = "SELECT userId FROM users WHERE user_userName = ?";
+        try (PreparedStatement stmt = dbConn.prepareStatement(sql)) {
+            stmt.setString(1, username);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("userId");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+	
 }

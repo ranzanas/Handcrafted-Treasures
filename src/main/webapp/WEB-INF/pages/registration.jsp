@@ -54,7 +54,7 @@
             <input type="password" id="confirm-password" name="retypePassword" required>
           </div>
           <button type="submit" class="btn">Register</button>
-          <p class="switch-form">Already have an account? <a href="login.html">Login</a></p>
+          <p class="switch-form">Already have an account? <a href="${pageContext.request.contextPath}/login">Login</a></p>
         </form>
       </div>
     </div>

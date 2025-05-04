@@ -25,7 +25,8 @@
           <input type="password" id="password" name="password" required>
         </div>
         <button type="submit" class="btn">Login</button>
-        <p class="switch-form">Don't have an account? <a href="register.html">Register</a></p>
+       <p class="switch-form">Don't have an account? <a href="${pageContext.request.contextPath}/Registration">Register</a></p>
+
       </form>
     </div>
   </div>

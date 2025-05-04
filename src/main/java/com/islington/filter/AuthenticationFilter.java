@@ -24,7 +24,12 @@ public class AuthenticationFilter extends HttpFilter implements Filter {
 	private static final String REGISTER = "/Registration";
 	private static final String HOME = "/home";
 	private static final String ROOT = "/";
-	
+	private static final String ABOUT = "/about";
+	private static final String BLOG = "/blog";
+	private static final String CART = "/cart";
+	private static final String CONTACT = "/contact";
+	private static final String SHOP = "/shop";
+	private static final String USERPROFILE = "/userProfile";
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		// TODO Auto-generated method stub
@@ -48,7 +53,8 @@ public class AuthenticationFilter extends HttpFilter implements Filter {
 
 		String uri = req.getRequestURI();
 
-		if (uri.endsWith(".css") || uri.endsWith(".jpg") || uri.endsWith(".png")|| uri.endsWith(HOME) || uri.endsWith(ROOT)) {
+		if (uri.endsWith(".css") || uri.endsWith(".jpg") || uri.endsWith(".png")|| uri.endsWith(HOME) || uri.endsWith(ROOT)  
+	            ||  uri.endsWith(LOGIN) || uri.endsWith(REGISTER)) {
 			chain.doFilter(request, response);
 			return;
 		}
@@ -79,3 +85,4 @@ public class AuthenticationFilter extends HttpFilter implements Filter {
 	}
 
 }
+

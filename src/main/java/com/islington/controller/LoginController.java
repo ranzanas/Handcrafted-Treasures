@@ -69,17 +69,25 @@ public class LoginController extends HttpServlet {
         
 
         if (loginStatus != null && loginStatus) {
+        	Integer userId = loginService.getUserIdByUsername(username);
+        	if (userId != null) {
+        		 SessionUtil.setAttribute(req, "userId", userId);
+        		 SessionUtil.setAttribute(req, "username", username);
  
 
             // Add role to cookies and redirect based on user role
-            if (username.equals("admin")) {
-                CookieUtil.addCookie(resp, "role", "admin", 5 * 30);  // Role-based redirection
-                resp.sendRedirect(req.getContextPath() + "/dashboard");  // Redirect to admin dashboard
+            if (username.equals("admin01")) {
+                CookieUtil.addCookie(resp, "role", "Admin", 5 * 30);  // Role-based redirection
+                resp.sendRedirect(req.getContextPath() + "/adminDashboard");  // Redirect to admin dashboard
             } else {
                 CookieUtil.addCookie(resp, "role", "Customer", 5 * 30);  // Role-based redirection
                 resp.sendRedirect(req.getContextPath() + "/home");  
             }
         } 
+        	else {
+                handleLoginFailure(req, resp, false);
+            }
+        }
         else {
 			handleLoginFailure(req, resp, loginStatus);
         }

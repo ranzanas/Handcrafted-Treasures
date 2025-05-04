@@ -258,7 +258,7 @@
           <a href="#"><i class="bx bx-cart cart"></i></a>
         </div>
         <div class="pro">
-          <img class="shirt" src="${pageContext.request.contextPath}/resources/img/products/n2.JPG" alt="" />
+          <img class="shirt" src="${pageContext.request.contextPath}/resources/img/products/n2.jpg" alt="" />
           <div class="des">
             <span>white blue dream catchers</span>
             <h5>
