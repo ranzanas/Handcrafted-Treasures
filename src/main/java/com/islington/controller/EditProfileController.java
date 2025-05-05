@@ -30,7 +30,7 @@ public class EditProfileController extends HttpServlet {
     public EditProfileController() {
         super();
         // TODO Auto-generated constructor stub
-    }
+    } 
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -54,7 +54,7 @@ public class EditProfileController extends HttpServlet {
 
 		    // Get form fields
 		    String fullName = request.getParameter("fullName");
-		    String userName = request.getParameter("userName");
+		    
 		    String address = request.getParameter("address");
 		    String dob = request.getParameter("dob");
 		    String email = request.getParameter("email");
@@ -78,7 +78,7 @@ public class EditProfileController extends HttpServlet {
 		    UserModel user = new UserModel();
 		    user.setId(userId);
 		    user.setFullName(fullName);
-		    user.setUserName(userName);
+		    
 		    user.setAddress(address);
 		    user.setDob(LocalDate.parse(dob));
 		    user.setEmail(email);

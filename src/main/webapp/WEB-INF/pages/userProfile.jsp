@@ -31,8 +31,8 @@
 	    <section class="mainSection">
       <div class="profilePhotoSection">
           <c:choose>
-    <c:when test="${not empty user.userImagePath}">
-      <img src="${pageContext.request.contextPath}/${user.userImagePath}" 
+    <c:when test="${not empty user.imagePath}">
+      <img src="${pageContext.request.contextPath}/${user.imagePath}" 
            alt="Profile Photo" class="profileImage" />
     </c:when>
     <c:otherwise>

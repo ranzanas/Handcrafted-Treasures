@@ -86,7 +86,7 @@ public class Registration extends HttpServlet {
 
     private void handleError(HttpServletRequest req, HttpServletResponse resp, String message)
             throws ServletException, IOException {
-        req.setAttribute("error", message);
+        req.setAttribute("errorMessage", message);
         req.getRequestDispatcher("/WEB-INF/pages/registration.jsp").forward(req, resp);
     }
 

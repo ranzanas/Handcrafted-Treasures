@@ -17,7 +17,7 @@
     /* Header */
     header {
       width: 100%;
-      background-color: #e63946; /* Tomato Red */
+      background-color: #80b3bc; /* Tomato Red */
       padding: 20px 0;
       text-align: center;
       color: white;
@@ -108,7 +108,7 @@
     .btn {
       width: 100%;
       padding: 12px;
-      background-color: #e63946; /* Tomato Red */
+      background-color: #80b3bc; /* Tomato Red */
       color: white;
       font-size: 16px;
       font-weight: bold;

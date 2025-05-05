@@ -42,7 +42,7 @@ public class UserProfile extends HttpServlet {
         }
     }
 
-    // Updated doPost method for profile update
+    
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 

@@ -25,8 +25,6 @@
             <label for="fullName">Full Name:</label>
             <input type="text" id="fullName" name="fullName" value="${user.fullName}" required /><br>
 
-            <label for="userName">Username:</label>
-            <input type="text" id="userName" name="userName" value="${user.userName}" required /><br>
 
             <label for="address">Address:</label>
             <input type="text" id="address" name="address" value="${user.address}" required /><br>

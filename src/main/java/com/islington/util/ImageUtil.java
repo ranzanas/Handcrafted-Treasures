@@ -96,6 +96,6 @@ public class ImageUtil {
 	}
 	
 	public String getSavePath(String saveFolder) {
-		return "C:/Users/Ranjana/eclipse-workspace/HandcraftedTreasures/src/main/webapp/resources/img/"+saveFolder+"/";
+		return "C:/Users/Ranjana/eclipse-workspace/HandcraftedTreasures/src/main/webapp/resources/img/";
 	}
 }

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,6 +17,12 @@
   <div class="container">
     <div class="form-box">
       <h2>Login to Your Account</h2>
+      
+     <c:if test="${not empty error}">
+        <div class="error-message" style="color: red; margin-bottom: 10px;">
+          ${error}
+        </div>
+      </c:if>
       <form action="${pageContext.request.contextPath}/login" method="POST">
         <div class="input-group">
           <label for="email">Username</label>
