@@ -12,6 +12,7 @@ public class UserModel {
 	private String number;
 	private String password;
 	private String role;
+	private String imagePath;
 	public UserModel() {
 	}
 
@@ -103,5 +104,12 @@ public class UserModel {
 
     public void setRole(String role) {
         this.role = role;
+    }
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 }

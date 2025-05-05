@@ -30,6 +30,7 @@ public class AuthenticationFilter extends HttpFilter implements Filter {
 	private static final String CONTACT = "/contact";
 	private static final String SHOP = "/shop";
 	private static final String USERPROFILE = "/userProfile";
+	private static final String EDITPROFILE = "/editProfile";
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		// TODO Auto-generated method stub

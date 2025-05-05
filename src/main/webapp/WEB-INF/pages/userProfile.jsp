@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,7 +30,15 @@
 	<jsp:include page="header.jsp" />
 	    <section class="mainSection">
       <div class="profilePhotoSection">
-        <i class="fa-regular fa-circle-user profileIcon"></i>
+          <c:choose>
+    <c:when test="${not empty user.userImagePath}">
+      <img src="${pageContext.request.contextPath}/${user.userImagePath}" 
+           alt="Profile Photo" class="profileImage" />
+    </c:when>
+    <c:otherwise>
+      <i class="fa-regular fa-circle-user profileIcon"></i>
+    </c:otherwise>
+  </c:choose>
       </div>
       <div class="infoSection">
         <h1 class="myProfileTitle">My Profile</h1>
@@ -63,7 +72,7 @@
           </div>
         </div>
         <div class="buttonClass">
-          <button class="editButton">Edit Profile</button>
+          <a href ="${pageContext.request.contextPath}/editProfile"><button class="editButton">Edit Profile</button></a>
           <button class="deleteButton">Delete Profile</button>
         </div>
       </div>

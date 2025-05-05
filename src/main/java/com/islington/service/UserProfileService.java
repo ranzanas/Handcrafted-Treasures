@@ -21,7 +21,7 @@ public class UserProfileService {
 	    
 	    public UserModel getUserDetails(int userId) {
 	        UserModel user = null;
-	        String query = "SELECT userId, userFullName, user_userName, userAddress, userDOB, userEmail, userPhone FROM users WHERE userId = ?";
+	        String query = "SELECT userId, userFullName, user_userName, userAddress, userDOB, userEmail, userPhone, userImagePath FROM users WHERE userId = ?";
 	        
 	        try (PreparedStatement stmt = dbConn.prepareStatement(query)) {
 	            stmt.setInt(1, userId);
@@ -36,6 +36,8 @@ public class UserProfileService {
 	                user.setDob(result.getDate("userDOB").toLocalDate());
 	                user.setEmail(result.getString("userEmail"));
 	                user.setNumber(result.getString("userPhone"));
+	                user.setImagePath(result.getString("userImagePath"));
+
 	            }
 	        } catch (SQLException e) {
 	            e.printStackTrace();
@@ -44,16 +46,19 @@ public class UserProfileService {
 	    }
 	    
 	    public boolean updateUser(UserModel user) {
-	        String sql = "UPDATE users SET userFullName = ?, user_userName = ?, userAddress = ?, userDOB = ?, userEmail = ?, userPhone = ? WHERE userId = ?";
+	    	
+	        String sql = "UPDATE users SET userFullName = ?, user_userName = ?, userAddress = ?, userDOB = ?, userEmail = ?, userPhone = ? , userImagePath = ? WHERE userId = ?";
 	        
 	        try (PreparedStatement stmt = dbConn.prepareStatement(sql)) {
-	            stmt.setString(1, user.getFullName());
-	            stmt.setString(2, user.getUserName());
-	            stmt.setString(3, user.getAddress());
-	            stmt.setDate(4, java.sql.Date.valueOf(user.getDob()));
-	            stmt.setString(5, user.getEmail());
-	            stmt.setString(6, user.getNumber());
-	            stmt.setInt(7, user.getId());
+	        	stmt.setString(1, user.getFullName());
+	        	stmt.setString(2, user.getUserName());
+	        	stmt.setString(3, user.getAddress());
+	        	stmt.setDate(4, java.sql.Date.valueOf(user.getDob()));
+	        	stmt.setString(5, user.getEmail());
+	        	stmt.setString(6, user.getNumber());
+	        	stmt.setString(7, user.getImagePath());  
+	        	stmt.setInt(8, user.getId());   
+
 
 	            int rowsAffected = stmt.executeUpdate();
 	            return rowsAffected > 0;

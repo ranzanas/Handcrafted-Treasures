@@ -9,7 +9,6 @@
 }
 .mainSection {
   width: 50%;
-
   border-radius: 15px;
   display: flex;
   justify-content: center;
@@ -25,6 +24,14 @@
   padding: 77px 100px;
   background: #e3e6f3;
 }
+.profileImage {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ccc;
+}
+
 .infoSection {
   width: 75%;
   height: 100%;
