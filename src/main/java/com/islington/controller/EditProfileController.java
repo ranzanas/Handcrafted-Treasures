@@ -66,11 +66,11 @@ public class EditProfileController extends HttpServlet {
 
 		    if (filePart != null && filePart.getSize() > 0) {
 		    	 ImageUtil imageUtil = new ImageUtil();
-		         boolean isUploaded = imageUtil.uploadImage(filePart, getServletContext().getRealPath(""), "profile_images");
+		         boolean isUploaded = imageUtil.uploadImage(filePart, "people", request);
 
 		         if (isUploaded) {
 		             // Set image path after successful upload
-		             imagePath = "resources/images/profile_images/" + imageUtil.getImageNameFromPart(filePart);
+		             imagePath = "resources/img/people/" + imageUtil.getImageNameFromPart(filePart);
 		         }
 		    }
 

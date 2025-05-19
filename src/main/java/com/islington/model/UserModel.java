@@ -17,7 +17,7 @@ public class UserModel {
 	}
 
 	public UserModel(int id, String fullName, String userName, String address, LocalDate dob,
-			String email, String number, String password) {
+			String email, String number, String password, String imagePath) {
 		super();
 		this.id = id;
 		this.fullName = fullName;
@@ -28,6 +28,7 @@ public class UserModel {
 		this.number = number;
 		this.password = password;
 		this.role = "Customer";
+		this.imagePath = imagePath;
 
 	}
 

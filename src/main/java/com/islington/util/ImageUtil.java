@@ -3,6 +3,7 @@ package com.islington.util;
 import java.io.File;
 import java.io.IOException;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.Part;
 
 /**
@@ -71,8 +72,8 @@ public class ImageUtil {
 	 * @return {@code true} if the file was successfully uploaded, {@code false}
 	 *         otherwise.
 	 */
-	public boolean uploadImage(Part part, String rootPath, String saveFolder) {
-		String savePath = getSavePath(saveFolder);
+	public boolean uploadImage(Part part,  String saveFolder , HttpServletRequest request) {
+		String savePath = getSavePath(saveFolder, request);
 		File fileSaveDir = new File(savePath);
 
 		// Ensure the directory exists
@@ -95,7 +96,8 @@ public class ImageUtil {
 		}
 	}
 	
-	public String getSavePath(String saveFolder) {
-		return "C:/Users/Ranjana/eclipse-workspace/HandcraftedTreasures/src/main/webapp/resources/img/";
+	public String getSavePath(String saveFolder, HttpServletRequest request) {
+		String realPath = request.getServletContext().getRealPath("/resources/img/people/" + saveFolder + "/");
+	    return realPath;
 	}
 }

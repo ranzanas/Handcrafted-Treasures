@@ -6,6 +6,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
+
+import com.islington.model.ProductModel;
+import com.islington.service.ProductService;
 
 /**
  * Servlet implementation class ShopController
@@ -27,6 +31,9 @@ public class ShopController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+        ProductService productService = new ProductService();
+        List<ProductModel> productList = productService.getAllProducts(); 
+        request.setAttribute("productList", productList); 
 		request.getRequestDispatcher("/WEB-INF/pages/shop.jsp").forward(request, response);
 	}
 

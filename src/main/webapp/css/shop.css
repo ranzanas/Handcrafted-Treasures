@@ -152,8 +152,12 @@ button.white {
 
 #product1 .pro img.shirt{
   width: 100%;
+   height: 381px; /* or adjust as needed for your layout */
+  object-fit: cover;
+
   border-radius: 20px;
 }
+
 
 #product1 .pro:hover {
   box-shadow: 20px 20px 54px rgba(28, 77, 161, 0.06);
@@ -239,6 +243,19 @@ button.white {
 
 #prodetails .single-pro-details span {
   line-height: 25px;
+}
+.alert {
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  font-weight: bold;
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.alert:contains("❌") {
+  background-color: #f8d7da;
+  color: #721c24;
 }
 #newsletter {
   display: flex;

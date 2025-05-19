@@ -40,17 +40,13 @@ public class RegisterService {
 			return null;
 		}
 
-		/*String programQuery = "SELECT program_id FROM program WHERE name = ?";*/
-		String insertQuery = "INSERT INTO users (userFullName, user_userName, userAddress, userDOB, userEmail, userPhone, userPassword, userRole) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+		String insertQuery = "INSERT INTO users (userFullName, user_userName, userAddress, userDOB, userEmail, userPhone, userPassword, userRole, userImagePath) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)";
 
 
 		try (PreparedStatement insertStmt = dbConn.prepareStatement(insertQuery)) {
 
-			// Fetch program ID
-			/*programStmt.setString(1, studentModel.getProgram().getName());
-			ResultSet result = programStmt.executeQuery();
-			int programId = result.next() ? result.getInt("program_id") : 1;*/
+
 
 			// Insert user details
             insertStmt.setString(1, userModel.getFullName());
@@ -61,10 +57,11 @@ public class RegisterService {
             insertStmt.setString(6, userModel.getNumber());
             insertStmt.setString(7, userModel.getPassword());
             insertStmt.setString(8, userModel.getRole());
+            insertStmt.setString(9, userModel.getImagePath());
 
 			return insertStmt.executeUpdate() > 0;
 		} catch (SQLException e) {
-			System.err.println("Error during student registration: " + e.getMessage());
+			System.err.println("Error during user registration: " + e.getMessage());
 			e.printStackTrace();
 			return null;
 		}

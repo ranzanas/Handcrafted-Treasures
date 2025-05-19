@@ -70,13 +70,12 @@
             <input type="password" id="confirm-password" name="retypePassword" required>
           </div>
 
-          <!-- Uncomment if profile picture is needed -->
-          <!--
+          
           <div class="input-group">
             <label for="profilePicture">Profile Picture</label>
             <input type="file" id="profilePicture" name="image" required>
           </div>
-          -->
+          
 
           <button type="submit" class="btn">Register</button>
           <p class="switch-form">
