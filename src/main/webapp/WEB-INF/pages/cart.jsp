@@ -106,7 +106,9 @@
           <td><strong>NPR ${cartTotal}</strong></td>
         </tr>
       </table>
-      <button class="normal">Proceed to checkout</button>
+      <form action="${pageContext.request.contextPath}/order" method="get">
+  		<button class="normal" type="submit">Place Order</button>
+	 </form>
     </div>
   </section>
 

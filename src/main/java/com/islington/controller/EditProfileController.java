@@ -37,6 +37,19 @@ public class EditProfileController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		Integer userId = (Integer) request.getSession().getAttribute("userId");
+
+	    if (userId == null) {
+	        response.sendRedirect("login.jsp");
+	        return;
+	    }
+
+	    // Fetch user from the database
+	    UserProfileService service = new UserProfileService();
+	    UserModel user = service.getUserDetails(userId); 
+
+	    // Make user available in JSP
+	    request.setAttribute("user", user);
 		request.getRequestDispatcher("/WEB-INF/pages/editProfile.jsp").forward(request, response);
 	}
 

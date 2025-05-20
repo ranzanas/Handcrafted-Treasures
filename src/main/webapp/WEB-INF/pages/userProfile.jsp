@@ -73,7 +73,6 @@
         </div>
         <div class="buttonClass">
           <a href ="${pageContext.request.contextPath}/editProfile"><button class="editButton">Edit Profile</button></a>
-          <button class="deleteButton">Delete Profile</button>
         </div>
       </div>
     </section>

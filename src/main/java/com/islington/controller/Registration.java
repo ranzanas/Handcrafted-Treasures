@@ -98,7 +98,7 @@ public class Registration extends HttpServlet {
     
 	private boolean uploadImage(HttpServletRequest req) throws IOException, ServletException {
 		Part image = req.getPart("image");
-		return imageUtil.uploadImage(image, "users", req);
+		return imageUtil.uploadImage(image, "people", req);
 	}
 	private void handleSuccess(HttpServletRequest req, HttpServletResponse resp, String message)
 			throws ServletException, IOException {

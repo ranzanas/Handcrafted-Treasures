@@ -67,12 +67,13 @@ button.white {
   transition: 0.2s;
 }
 
-#page-header.blog-header {
-  background-image: url("./resources/img/banner/b19.jpg");
+.blog-header{
+	text-align: center;
+	margin-top: 45px;
 }
 
 #blog {
-  padding: 150px 150px 0 150px;
+  padding: 59px 150px 0 150px;
 }
 
 #blog .blog-box {

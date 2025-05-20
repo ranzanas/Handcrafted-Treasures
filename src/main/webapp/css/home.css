@@ -74,7 +74,7 @@ button.white {
 }
 
 #main {
-  background-image: url("./resources/img/bg-img.jpg");
+  background-image: url("../resources/img/bg-img.jpg");
   background-size: cover;
   height: 90vh;
   width: 100%;
@@ -95,7 +95,7 @@ button.white {
 }
 
 #main button {
-  background-image: url("/resources/img/button.png");
+  background-image: url("../resources/img/button.png");
   background-color: transparent;
   color: #088178;
   border: 0;
@@ -257,7 +257,7 @@ button.white {
   text-align: center;
   align-items: center;
   flex-direction: column;
-  background-image: url("/resources/img/banner/b2.jpg");
+  background-image: url("../resources/img/banner/b2.jpg");
   width: 100%;
   height: 30vh;
   background-size:cover;
@@ -295,7 +295,7 @@ button.white {
   justify-content: center;
   align-items: flex-start;
   flex-direction: column;
-  background-image: url("/resources/img/banner/b17.jpg");
+  background-image: url("../resources/img/banner/b17.jpg");
   min-width: 600px;
   height: 50vh;
   background-size:cover;
@@ -305,7 +305,7 @@ button.white {
 }
 
 #sm-banner .banner-box2 {
-  background-image: url("/resources/img/banner/b10.jpg");
+  background-image: url("../resources/img/banner/b10.jpg");
 }
 
 #sm-banner h4 {
@@ -344,7 +344,7 @@ button.white {
   justify-content: center;
   align-items: flex-start;
   flex-direction: column;
-  background-image: url("/resources/img/banner/b7.jpg");
+  background-image: url("../resources/img/banner/b7.jpg");
   min-width: 30%;
   height: 30vh;
   background-size:cover;
@@ -354,11 +354,11 @@ button.white {
 }
 
 #banner3 .banner-box2 {
-  background-image: url("/resources/img/banner/b4.jpg");
+  background-image: url("../resources/img/banner/b4.jpg");
 }
 
 #banner3 .banner-box3 {
-  background-image: url("/resources/img/banner/b18.jpg");
+  background-image: url("../resources/img/banner/b18.jpg");
 }
 
 #banner3 h2 {
@@ -378,7 +378,7 @@ button.white {
   justify-content: space-between;
   flex-wrap: wrap;
   align-items: center;
-  background-image: url("/resources/img/banner/b14.png");
+  background-image: url("../resources/img/banner/b14.png");
   background-repeat: no-repeat;
   background-position: 20% 30%;
   background-color: #041e42;

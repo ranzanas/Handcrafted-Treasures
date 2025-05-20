@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,6 +24,11 @@
 </head>
 <body>
 	<jsp:include page="header.jsp" />
+		<c:if test="${not empty message}">
+		  <div style="padding: 10px; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; margin-bottom: 15px; text-align: center;">
+		    ${message}
+		  </div>
+		</c:if>
 	    <section id="page-header" class="about-header">
       <h2>#let's_talk</h2>
       <p>LEAVE A MESSAGE, We love to hear from you!</p>
@@ -44,34 +51,29 @@
           </li>
           <li>
             <i class="bx bxs-phone"></i>
-            <p>+97 9822797908</p>
+            <p>+977 9822797908</p>
           </li>
           <li>
             <i class="bx bx-time-five"></i>
-            <p>sunday to friday: 9.00am to 5.00pm</p>
+            <p>Sunday to Friday: 9.00am to 5.00pm</p>
           </li>
           </ul>
         </div>
       </div>
+      
+
+      
+      <div id="form-details">
+		<form action="${pageContext.request.contextPath}/contact" method="post">
+		  <span>LEAVE A MESSAGE</span>
+		  <h2>We love to hear from you</h2>
+		  <textarea name="feedbackDescription" cols="30" rows="10" placeholder="Your Message" required></textarea>
+		  <button type="submit" class="normal">Send Feedback</button>
+		</form>
+    </div>
     </section>
 
-    <section id="form-details">
-      <form action="">
-        <span>LEAVE A MESSAGE</span>
-        <h2>We love to hear from you</h2>
-        <input type="text" placeholder="Your Name" />
-        <input type="text" placeholder="E-mail" />
-        <input type="text" placeholder="Subject" />
-        <textarea
-          name=""
-          id=""
-          cols="30"
-          rows="10"
-          placeholder="Your Message"
-        ></textarea>
-        <button class="normal">Submit</button>
-      </form>
-    </section>
+
 
     <section id="newsletter" class="section-p1 section-m1">
       <div class="newstext">

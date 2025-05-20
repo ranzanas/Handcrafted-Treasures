@@ -23,13 +23,15 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"
     />
+    
+	
 </head>
 <body>
 	<jsp:include page="header.jsp" />
 	
         <section id="page-header" class="about-header">
             <h2>#knowUs</h2>
-            <p>know about us more!!!</p>
+            <p>Know About Us More!!!</p>
         </section>
 	        <section id="about-head" class="section-p1">
             <img src="${pageContext.request.contextPath}/resources/img/about/a6.jpg" alt="">

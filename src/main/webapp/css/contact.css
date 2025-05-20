@@ -41,7 +41,10 @@ p {
 .section-m1 {
   margin: 40px 0;
 }
-
+#page-header{
+	margin-top: 45px;
+	text-align: center;
+}
 button.normal {
   font-size: 14px;
   font-weight: 600;
@@ -54,7 +57,10 @@ button.normal {
   outline: none;
   transition: 0.2s;
 }
-
+#form-details form button:hover {
+    color: #088178;
+    background-color: #fff;
+}
 button.white {
   font-size: 13px;
   font-weight: 600;
@@ -68,7 +74,6 @@ button.white {
 }
 #contact-details {
   display: flex;
-  align-items: center;
   justify-content: space-between;
 }
 
@@ -115,12 +120,13 @@ button.white {
   display: flex;
   justify-content: space-between;
   margin: 30px;
-  padding: 80px;
+  padding: 34px;
   border: 1px solid #e1e1e1;
+  width: 50%;
 }
 
 #form-details form {
-  width: 65%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -144,7 +150,6 @@ button.white {
   justify-content: space-between;
   flex-wrap: wrap;
   align-items: center;
-  background-image: url("./img/banner/b14.png");
   background-repeat: no-repeat;
   background-position: 20% 30%;
   background-color: #041e42;

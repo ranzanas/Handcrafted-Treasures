@@ -10,6 +10,9 @@ public class OrderModel {
 	private double totalAmount;
 	private String paymentMethod;
 	
+	private String userName;
+	private String productName;
+	
 	public OrderModel() {
 	}
 
@@ -75,5 +78,21 @@ public class OrderModel {
 	 */
 	public void setPaymentMethod(String paymentMethod) {
 		this.paymentMethod = paymentMethod;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
 	}
 }

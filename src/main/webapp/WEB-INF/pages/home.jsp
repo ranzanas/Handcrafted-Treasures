@@ -43,7 +43,9 @@
       <p>
         Home to exquisite handmade items and authentic traditional artifacts!
       </p>
-      <button class="btn">Shop Now</button>
+      <form action="${pageContext.request.contextPath}/shop" method="get">
+  		<button class="btn">Shop Now</button>
+	</form>
     </section>
 	    <section id="feature" class="section-p1">
       <div class="fe-box">
@@ -107,7 +109,9 @@
         Artisanal Wonders <span>Revealing Masters of the Craft</span> -
         Redefining Handicrafts
       </h2>
-      <button class="normal">Explore More</button>
+     <form action="${pageContext.request.contextPath}/shop" method="get">
+  		<button class="normal">Explore More</button>
+	</form>
     </section>
 
     <section id="product1" class="section-p1">

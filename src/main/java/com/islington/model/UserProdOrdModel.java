@@ -4,16 +4,16 @@ package com.islington.model;
 
 public class UserProdOrdModel {
 	private int userId;
-	private String productName;
+	private int productId;
 	private int orderId;
 	public UserProdOrdModel() {
 	}
 
-	public UserProdOrdModel(int orderId, int userId, String productName) {
+	public UserProdOrdModel(int orderId, int userId, int productId) {
 		super();
 		this.orderId = orderId;
 		this.userId = userId;
-		this.productName = productName;
+		this.productId = productId;
 
 	}
 	public int getUserId() {
@@ -28,10 +28,10 @@ public class UserProdOrdModel {
 	public void setOrderId(int orderId) {
 		this.orderId = orderId;
 	}
-	public String getProductName() {
-		return productName;
+	public int getProductId() {
+		return productId;
 	}
-	public void setProductName(String productName) {
-		this.productName = productName;
+	public void setProductId(int productId) {
+		this.productId = productId;
 	}
 }

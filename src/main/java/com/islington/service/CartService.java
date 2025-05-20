@@ -65,7 +65,15 @@ public class CartService {
             return false;
         }
     }
-
+    public void clearCart(int userId) {
+        String sql = "DELETE FROM cart WHERE userId = ?";
+        try (PreparedStatement ps = dbConn.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public List<CartModel> getCartItemsByUserId(int userId) {
         List<CartModel> cartItems = new ArrayList<>();

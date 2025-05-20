@@ -96,6 +96,15 @@
   background-color: #088178;
   color: #fff;
   padding: 12px 20px;
+  cursor: pointer;
+  
+}
+
+#subtotal button:hover {
+    background-color: #fff;
+    color: #088178;
+    outline: none;
+    border: none;
 }
 
 #subtotal {

@@ -47,4 +47,22 @@ public class ProductService {
 
         return productList;
     }
+    
+    public boolean addProduct(ProductModel product) {
+        String query = "INSERT INTO products (productName, productDescription, productPrice, productQuantity, productStatus, productImage) VALUES (?, ?, ?, ?, ?, ?)";
+
+        try (PreparedStatement stmt = dbConn.prepareStatement(query)) {
+            stmt.setString(1, product.getProductName());
+            stmt.setString(2, product.getProductDescription());
+            stmt.setDouble(3, product.getProductPrice());
+            stmt.setInt(4, product.getProductQuantity());
+            stmt.setString(5, product.getProductStatus());
+            stmt.setString(6, product.getProductImage());
+
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

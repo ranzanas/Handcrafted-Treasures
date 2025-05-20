@@ -10,6 +10,11 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/login.css">
 </head>
 <body>
+
+	<c:if test="${param.msg == 'deleted'}">
+  		<div class="successMessage">Your profile has been deleted successfully.</div>
+	</c:if>
+	
   <header>
     <h1>Handcrafted Treasures</h1>
   </header>

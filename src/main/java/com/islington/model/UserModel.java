@@ -13,6 +13,8 @@ public class UserModel {
 	private String password;
 	private String role;
 	private String imagePath;
+	
+	private String tempFeedback;
 	public UserModel() {
 	}
 
@@ -113,4 +115,12 @@ public class UserModel {
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
     }
+
+	public String getTempFeedback() {
+		return tempFeedback;
+	}
+
+	public void setTempFeedback(String tempFeedback) {
+		this.tempFeedback = tempFeedback;
+	}
 }

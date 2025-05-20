@@ -97,7 +97,7 @@ public class ImageUtil {
 	}
 	
 	public String getSavePath(String saveFolder, HttpServletRequest request) {
-		String realPath = request.getServletContext().getRealPath("/resources/img/people/" + saveFolder + "/");
+		String realPath =  request.getServletContext().getRealPath("/resources/img/" + saveFolder + "/");
 	    return realPath;
 	}
 }
