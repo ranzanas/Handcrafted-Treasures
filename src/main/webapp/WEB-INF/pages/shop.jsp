@@ -12,8 +12,8 @@
 	href="${pageContext.request.contextPath}/css/shop.css" />
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/footer.css" />
-	    <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+<link
+     href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
       rel="stylesheet"
     />
     <link
@@ -37,6 +37,11 @@
 	<section id="page-header">
             <h2>#From our hands to your heart</h2>
             <p>Handcrafted Beauty Timeless Appeal</p>
+            <form action="${pageContext.request.contextPath}/search" method="get" class="search-form">
+			  <input type="text" class = "searchbar" name="query" placeholder="Search products..." required />
+			  <button type="submit" class = 'search-btn white'>Search</button>
+			</form>
+            
         </section> 
 
 		<section id="product1" class="section-p1">

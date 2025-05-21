@@ -6,6 +6,7 @@
             <c:if test="${empty sessionScope.username}">
                 <li><a href="${pageContext.request.contextPath}/login">Login</a></li>
                 <li><a href="${pageContext.request.contextPath}/Registration">Sign Up</a></li>
+              
             </c:if>
         </ul>
       </div>
@@ -40,6 +41,7 @@
                     <div class="dropdown-content">
                         <a href="${pageContext.request.contextPath}/userProfile">Visit Profile</a>
                         <a href="${pageContext.request.contextPath}/LogOutController">Logout</a>
+                        <a href="${pageContext.request.contextPath}/orderHistory">Order History</a>
                     </div>
                 </div>
             </div>

@@ -12,6 +12,7 @@ public class OrderModel {
 	
 	private String userName;
 	private String productName;
+	private String productImage;
 	
 	public OrderModel() {
 	}
@@ -94,5 +95,13 @@ public class OrderModel {
 
 	public void setProductName(String productName) {
 		this.productName = productName;
+	}
+
+	public String getProductImage() {
+		return productImage;
+	}
+
+	public void setProductImage(String productImage) {
+		this.productImage = productImage;
 	}
 }

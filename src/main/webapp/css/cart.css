@@ -120,7 +120,11 @@
   width: 100%;
   margin-bottom: 20px;
 }
-
+.tableSection{
+	width: 80%;
+	display: block;
+	margin: auto;
+}
 #subtotal table td {
   width: 50%;
   border: 1px solid #e2e9e1;

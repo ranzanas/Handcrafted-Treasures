@@ -82,7 +82,23 @@ button.white {
   flex-direction: column;
   padding: 14px;
 }
+input.searchbar {
+    width: 25%;
+    height: 39px;
+    padding: 10px;
+    border: none;
+    outline: none;
+}
+button.search-btn {
+    background: #088178;
+    outline: none;
+    border: none;
+}
+button.search-btn:hover {
+    background: #fff;
+    color: #088178;
 
+}
 #page-header h2,
 #page-header p {
   color: #fff;

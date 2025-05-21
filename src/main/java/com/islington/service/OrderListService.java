@@ -65,5 +65,41 @@ public class OrderListService {
         }
         return 0;
     }
+    
+    public List<OrderModel> getOrdersByUserId(int userId) {
+        List<OrderModel> orders = new ArrayList<>();
+        String sql = """
+            SELECT o.orderId, o.orderDate, o.orderQuantity, o.deliveryAddress, o.totalAmount, o.paymentMethod,
+                   p.productName, p.productImage
+            FROM orders o
+            JOIN userprodord uop ON o.orderId = uop.orderId
+            JOIN products p ON p.productId = uop.productId
+            WHERE uop.userId = ?
+            ORDER BY o.orderDate DESC
+        """;
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                OrderModel order = new OrderModel();
+                order.setOrderId(rs.getInt("orderId"));
+                order.setOrderDate(rs.getDate("orderDate").toLocalDate());
+                order.setOrderQuantity(rs.getInt("orderQuantity"));
+                order.setDeliveryAddress(rs.getString("deliveryAddress"));
+                order.setTotalAmount(rs.getDouble("totalAmount"));
+                order.setPaymentMethod(rs.getString("paymentMethod"));
+                order.setProductName(rs.getString("productName"));
+                order.setProductImage(rs.getString("productImage"));
+                orders.add(order);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return orders;
+    }
+
 }
 

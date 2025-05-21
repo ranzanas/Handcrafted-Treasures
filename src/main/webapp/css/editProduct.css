@@ -1,0 +1,86 @@
+@charset "UTF-8";
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Spartan:wght@300;400;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Spartan", sans-serif;
+}
+
+body {
+  background-color: #f9fafb;
+  color: #333;
+  padding: 40px;
+}
+
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.main h2 {
+  text-align: center;
+  color: #088178;
+  margin-bottom: 30px;
+  font-size: 28px;
+}
+
+.add-product-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.add-product-form label {
+  font-weight: 600;
+  color: #444;
+}
+
+.add-product-form input[type="text"],
+.add-product-form input[type="number"],
+.add-product-form textarea {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+}
+
+.add-product-form input[readonly] {
+  background-color: #f1f5f9;
+  color: #777;
+}
+
+.add-product-form input:focus,
+.add-product-form textarea:focus {
+  border-color: #088178;
+  outline: none;
+}
+
+.add-product-form textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.btn.submit {
+  background-color: #088178;
+  color: white;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+}
+
+.btn.submit:hover {
+  background-color: #06665f;
+}

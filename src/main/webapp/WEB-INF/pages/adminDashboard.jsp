@@ -54,7 +54,11 @@
     	<button type="submit" class="btn submit">Go to Add Product Page</button>
   	</form> 
 
-
+		<c:if test="${not empty sessionScope.message}">
+		  <div class="alert">${sessionScope.message}</div>
+		  <c:remove var="message" scope="session" />
+		</c:if>
+		
       <section class="product-table">
         <h2>Product List</h2>
         <table>
@@ -63,6 +67,7 @@
               <th>Image</th>
               <th>Product ID</th>
               <th>Name</th>
+              <th>Description</th>
               <th>Price</th>
               <th>Quantity</th>
               <th>Status</th>
@@ -79,13 +84,20 @@
                 </td>
                 <td>${product.productId}</td>
                 <td>${product.productName}</td>
-                
+                <td>${product.productDescription}</td>
                 <td>NPR ${product.productPrice}</td>
                 <td>${product.productQuantity}</td>
                 <td>${product.productStatus}</td>
                 <td>
-                  <button class="btn edit">Edit</button>
-                  <button class="btn delete">Delete</button>
+                  <form action="${pageContext.request.contextPath}/editProduct" method="get" style="display:inline;">
+				  <input type="hidden" name="productId" value="${product.productId}" />
+				  <button class="btn edit" type="submit">Edit</button>
+				</form>
+                  <form action="${pageContext.request.contextPath}/DeleteProductController" method="post" style="display:inline;">
+					  <input type="hidden" name="productId" value="${product.productId}" />
+					  <button class="btn delete" type="submit" onclick="return confirm('Are you sure you want to delete this product?')">Delete</button>
+				  </form>
+
                 </td>
               </tr>
             </c:forEach>

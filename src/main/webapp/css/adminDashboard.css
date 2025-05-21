@@ -17,6 +17,19 @@ body {
   display: flex;
   min-height: 100vh;
 }
+.alert {
+  margin: 20px auto;
+  padding: 15px 20px;
+  width: 90%;
+  max-width: 800px;
+  border-radius: 8px;
+  background-color: #f0f4f8; /* neutral base */
+  color: #333;
+  font-size: 16px;
+  font-family: 'Spartan', sans-serif;
+  border-left: 6px solid #007bff; /* blue indicator */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
 
 .sidebar {
   width: 16%;
@@ -181,7 +194,14 @@ th {
   object-fit: cover;
   border-radius: 4px;
 }
-
+th:nth-child(1), td:nth-child(1) { width: 60px; }  /* Image */
+th:nth-child(2), td:nth-child(2) { width: 80px; }  /* ID */
+th:nth-child(3), td:nth-child(3) { width: 140px; } /* Name */
+th:nth-child(4), td:nth-child(4) { width: 157px; line-height: 1.5 } /* Description */
+th:nth-child(5), td:nth-child(5) { width: 100px; } /* Price */
+th:nth-child(6), td:nth-child(6) { width: 80px; }  /* Quantity */
+th:nth-child(7), td:nth-child(7) { width: 90px; }  /* Status */
+th:nth-child(8), td:nth-child(8) { width: 120px; } /* Actions */
 /* Responsive */
 @media (max-width: 768px) {
   .container {
