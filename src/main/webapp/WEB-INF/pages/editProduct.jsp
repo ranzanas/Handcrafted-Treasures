@@ -11,6 +11,9 @@
 <div class="container">
     <main class="main">
         <h2>Edit Product</h2>
+        <c:if test="${not empty errorMessage}">
+            <div class="error-message">${errorMessage}</div>
+        </c:if>
         <form action="${pageContext.request.contextPath}/editProduct" method="post" class="add-product-form" enctype="multipart/form-data">
             <!-- Display Product ID as read-only -->
             <label>Product ID:</label>

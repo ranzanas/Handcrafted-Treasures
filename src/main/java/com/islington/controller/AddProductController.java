@@ -1,4 +1,4 @@
-// AddProductController.java
+
 package com.islington.controller;
 
 import com.islington.model.ProductModel;
@@ -45,6 +45,8 @@ public class AddProductController extends HttpServlet {
         String errorMessage = null;
         if (name == null || name.trim().isEmpty()) {
             errorMessage = "Product name is required.";
+        } else if (productService.productNameExists(name)) {
+            errorMessage = "A product with this name already exists.";
         } else if (price <= 0) {
             errorMessage = "Price must be greater than 0.";
         } else if (quantity < 0) {

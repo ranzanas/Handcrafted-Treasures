@@ -34,28 +34,27 @@ public class EditProductController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        int productId = Integer.parseInt(request.getParameter("productId"));
-        String name = request.getParameter("productName");
-        String description = request.getParameter("productDescription");
-        double price = Double.parseDouble(request.getParameter("productPrice"));
-        int quantity = Integer.parseInt(request.getParameter("productQuantity"));
-        String status = quantity > 0 ? "Available" : "Out of Stock";
-
-        String existingImage = request.getParameter("existingImage");
-        String imagePath;
-
         try {
+            int productId = Integer.parseInt(request.getParameter("productId"));
+            String name = request.getParameter("productName");
+            String description = request.getParameter("productDescription");
+            double price = Double.parseDouble(request.getParameter("productPrice"));
+            int quantity = Integer.parseInt(request.getParameter("productQuantity"));
+            String status = quantity > 0 ? "Available" : "Out of Stock";
+
+            String existingImage = request.getParameter("existingImage");
+            String imagePath;
+
             Part imagePart = request.getPart("productImage");
 
             if (imagePart != null && imagePart.getSize() > 0) {
                 imagePath = imageUtil.getImageNameFromPart(imagePart);
                 boolean uploaded = imageUtil.uploadImage(imagePart, "productImg", request);
                 if (!uploaded) {
-                    handleError(request, response, "Image upload failed. Please try again.");
+                    handleError(request, response, "Image upload failed. Please try again.", null);
                     return;
                 }
             } else {
-                // Use existing image if no new image uploaded
                 imagePath = existingImage;
             }
 
@@ -71,26 +70,23 @@ public class EditProductController extends HttpServlet {
             boolean updated = productService.updateProduct(product);
 
             if (updated) {
-                handleSuccess(request, response, "✅ Product updated successfully.");
+                request.getSession().setAttribute("message", "✅ Product details updated successfully.");
+                response.sendRedirect(request.getContextPath() + "/adminDashboard");
             } else {
-                handleError(request, response, "❌ Failed to update product.");
+                handleError(request, response, "❌ Failed to update product.", product);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
-            handleError(request, response, "❌ An unexpected error occurred.");
+            handleError(request, response, "❌ An unexpected error occurred.", null);
         }
     }
 
-    private void handleSuccess(HttpServletRequest request, HttpServletResponse response, String message)
-            throws ServletException, IOException {
-        request.getSession().setAttribute("message", message);
-        response.sendRedirect(request.getContextPath() + "/adminDashboard");
-    }
-
-    private void handleError(HttpServletRequest request, HttpServletResponse response, String message)
+    private void handleError(HttpServletRequest request, HttpServletResponse response, String message, ProductModel product)
             throws ServletException, IOException {
         request.setAttribute("errorMessage", message);
+        if (product != null) {
+            request.setAttribute("product", product);
+        }
         request.getRequestDispatcher("/WEB-INF/pages/editProduct.jsp").forward(request, response);
     }
 }

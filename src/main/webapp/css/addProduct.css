@@ -81,7 +81,22 @@
             width: 100%;
             transition: 0.3s ease;
         }
+.error {
+    color: red;
+    background: #ffe5e5;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid red;
+}
 
+.success {
+    color: green;
+    background: #e6ffe6;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid green;
+}
+		
         button:hover {
             background-color: #066b63;
         }

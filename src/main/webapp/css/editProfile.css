@@ -64,7 +64,14 @@ h2 {
 .form-container button:hover {
     background-color: #45a049;
 }
-
+.error-message{
+	color: red;
+    background-color: #ffe5e5;
+    border: 1px solid red;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
 /* Align the profile picture input */
 .profile-picture-container {
     display: flex;

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +12,13 @@
 <body>
 <section class="add-product-container">
         <h2>Add New Product</h2>
+        <c:if test="${not empty errorMessage}">
+		    <div class="error">${errorMessage}</div>
+		</c:if>
+        <c:if test="${not empty success}">
+		    <div class="success">${success}</div>
+		</c:if>
+        
         <form action="${pageContext.request.contextPath}/addProduct" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="product-name">Product Name *</label>

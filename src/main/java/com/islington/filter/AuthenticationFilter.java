@@ -55,7 +55,7 @@ public class AuthenticationFilter extends HttpFilter implements Filter {
 		String uri = req.getRequestURI();
 
 		if (uri.endsWith(".css") || uri.endsWith(".jpg") || uri.endsWith(".png")|| uri.endsWith(HOME) || uri.endsWith(ROOT)  
-	            ||  uri.endsWith(LOGIN) || uri.endsWith(REGISTER)) {
+	            ||  uri.endsWith(LOGIN) || uri.endsWith(REGISTER)|| uri.endsWith(ABOUT) || uri.endsWith(BLOG)) {
 			chain.doFilter(request, response);
 			return;
 		}

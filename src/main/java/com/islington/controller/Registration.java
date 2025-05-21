@@ -54,13 +54,15 @@ public class Registration extends HttpServlet {
         if (!isValidName(fullName)) {
             errorMessage = "Invalid name format! Please check your full name";
         } else if (!isValidUsername(username)) {
-            errorMessage = "Username must 6 characters long and cannot be special characters";
+            errorMessage = "Username must be at least 6 characters long and contain no special characters";
         } else if (!isValidBirthday(birthday)) {
-            errorMessage = "Please enter valid birthday!";
+            errorMessage = "Please enter a valid birthday and user must be above 16 for registration";
         } else if (!isValidPhoneNumber(phone)) {
-            errorMessage = "Please enter valid number!";
+            errorMessage = "Please enter a valid phone number!";
+        } else if (registerService.isPhoneExists(phone)) {
+            errorMessage = "A user with this phone number already exists.";
         } else if (!isValidPassword(password, retypePassword)) {
-            errorMessage = "Please enter strong password";
+            errorMessage = "Please enter a strong password!";
         }
 
         if (errorMessage != null) {
@@ -144,13 +146,21 @@ public class Registration extends HttpServlet {
     }
 
     private boolean isValidBirthday(String birthday) {
-        LocalDate birthDate = LocalDate.parse(birthday);
-        return birthDate.isBefore(LocalDate.now());
+        try {
+            LocalDate birthDate = LocalDate.parse(birthday);
+            LocalDate today = LocalDate.now();
+            LocalDate minAllowedDob = today.minusYears(16); // 16 years ago
+
+            return !birthDate.isAfter(minAllowedDob); // Must be 16 or older
+        } catch (Exception e) {
+            return false; // Invalid format
+        }
     }
 
     private boolean isValidPhoneNumber(String phone) {
         return phone.startsWith("+") && phone.length() == 14;
     }
+    
 
     private boolean isValidPassword(String password, String retypePassword) {
         return password.length() > 6 &&
@@ -159,4 +169,5 @@ public class Registration extends HttpServlet {
                password.matches(".*[A-Z].*") &&
                password.equals(retypePassword);
     }
+    
 }

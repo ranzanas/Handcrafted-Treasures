@@ -66,6 +66,20 @@ public class UserProfileService {
 	            return false;
 	        }
 	    }
-	    
+	    public boolean isPhoneUsedByOtherUser(int userId, String phone) {
+	        String query = "SELECT COUNT(*) FROM users WHERE userPhone = ? AND userId != ?";
+	        try (PreparedStatement stmt = dbConn.prepareStatement(query)) {
+	            stmt.setString(1, phone);
+	            stmt.setInt(2, userId);
+	            ResultSet rs = stmt.executeQuery();
+	            if (rs.next()) {
+	                return rs.getInt(1) > 0;
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	        return false;
+	    }
+
 
 }

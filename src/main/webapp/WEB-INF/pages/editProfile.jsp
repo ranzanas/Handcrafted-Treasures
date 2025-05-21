@@ -19,6 +19,10 @@
 
     <div class="form-container">
       <h2>Edit Profile</h2>
+      <c:if test="${not empty updateError}">
+	    <div class="error-message">${updateError}</div>
+	</c:if>
+      
         <form action="editProfile" method="post" enctype="multipart/form-data">
 
 

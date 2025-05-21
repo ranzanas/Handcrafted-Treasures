@@ -12,8 +12,6 @@ import java.util.List;
 import com.islington.config.DbConfig;
 import com.islington.model.CartModel;
 
-
-
 public class OrderService {
     private final Connection dbConn;
 
@@ -30,7 +28,7 @@ public class OrderService {
         try {
             dbConn.setAutoCommit(false);  // start transaction
 
-            // Insert into orders
+            // 1. Insert into orders table
             String orderSQL = "INSERT INTO orders (orderQuantity, orderDate, deliveryAddress, totalAmount, paymentMethod) VALUES (?, ?, ?, ?, ?)";
             try (PreparedStatement ps = dbConn.prepareStatement(orderSQL, Statement.RETURN_GENERATED_KEYS)) {
                 ps.setInt(1, quantity);
@@ -46,7 +44,7 @@ public class OrderService {
                 }
             }
 
-            // Insert into usersordprod
+            // 2. Insert into userprodord table
             String userOrderSQL = "INSERT INTO userprodord (userId, productId, orderId) VALUES (?, ?, ?)";
             try (PreparedStatement ps = dbConn.prepareStatement(userOrderSQL)) {
                 for (CartModel item : items) {
@@ -58,11 +56,32 @@ public class OrderService {
                 ps.executeBatch();
             }
 
-            dbConn.commit();
+            // 3. Deduct stock from products
+            for (CartModel item : items) {
+                updateProductStock(item.getProductId(), item.getCartProductQuantity());
+            }
+
+            dbConn.commit(); // ✅ Commit transaction if all succeeds
         } catch (Exception e) {
-            try { dbConn.rollback(); } catch (SQLException ex) { ex.printStackTrace(); }
+            try {
+                dbConn.rollback(); // ❌ Rollback on failure
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             e.printStackTrace();
         }
         return orderId;
+    }
+
+    // ✅ Deduct quantity from product stock
+    public void updateProductStock(int productId, int quantityOrdered) {
+        String query = "UPDATE products SET productQuantity = productQuantity - ? WHERE productId = ?";
+        try (PreparedStatement stmt = dbConn.prepareStatement(query)) {
+            stmt.setInt(1, quantityOrdered);
+            stmt.setInt(2, productId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

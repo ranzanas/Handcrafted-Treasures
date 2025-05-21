@@ -3,6 +3,7 @@ package com.islington.service;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.islington.config.DbConfig;
@@ -66,4 +67,18 @@ public class RegisterService {
 			return null;
 		}
 	}
+	public boolean isPhoneExists(String phoneNumber) {
+	    String query = "SELECT COUNT(*) FROM users WHERE userPhone = ?";
+	    try (PreparedStatement stmt = dbConn.prepareStatement(query)) {
+	        stmt.setString(1, phoneNumber);
+	        ResultSet rs = stmt.executeQuery();
+	        if (rs.next()) {
+	            return rs.getInt(1) > 0;
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return false;
+	}
+
 }

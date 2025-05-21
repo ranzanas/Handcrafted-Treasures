@@ -10,107 +10,119 @@ import jakarta.servlet.http.Part;
 
 import java.io.IOException;
 import java.time.LocalDate;
+
 import com.islington.model.UserModel;
 import com.islington.service.UserProfileService;
 import com.islington.util.ImageUtil;
 
-/**
- * Servlet implementation class EditProfileController
- */
 @WebServlet(asyncSupported = true, urlPatterns = { "/editProfile" })
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
-maxFileSize = 1024 * 1024 * 10, // 10MB
-maxRequestSize = 1024 * 1024 * 50) // 50MB
+        maxFileSize = 1024 * 1024 * 10, // 10MB
+        maxRequestSize = 1024 * 1024 * 50) // 50MB
 public class EditProfileController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+    private static final long serialVersionUID = 1L;
+
     public EditProfileController() {
         super();
-        // TODO Auto-generated constructor stub
-    } 
+    }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		Integer userId = (Integer) request.getSession().getAttribute("userId");
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Integer userId = (Integer) request.getSession().getAttribute("userId");
 
-	    if (userId == null) {
-	        response.sendRedirect("login.jsp");
-	        return;
-	    }
+        if (userId == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
 
-	    // Fetch user from the database
-	    UserProfileService service = new UserProfileService();
-	    UserModel user = service.getUserDetails(userId); 
+        UserProfileService service = new UserProfileService();
+        UserModel user = service.getUserDetails(userId);
+        request.setAttribute("user", user);
+        request.getRequestDispatcher("/WEB-INF/pages/editProfile.jsp").forward(request, response);
+    }
 
-	    // Make user available in JSP
-	    request.setAttribute("user", user);
-		request.getRequestDispatcher("/WEB-INF/pages/editProfile.jsp").forward(request, response);
-	}
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Integer userId = (Integer) request.getSession().getAttribute("userId");
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		 Integer userId = (Integer) request.getSession().getAttribute("userId");
+        if (userId == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
 
-		    if (userId == null) {
-		        response.sendRedirect("login.jsp");
-		        return;
-		    }
+        String fullName = request.getParameter("fullName");
+        String address = request.getParameter("address");
+        String dob = request.getParameter("dob");
+        String email = request.getParameter("email");
+        String number = request.getParameter("number");
 
-		    // Get form fields
-		    String fullName = request.getParameter("fullName");
-		    
-		    String address = request.getParameter("address");
-		    String dob = request.getParameter("dob");
-		    String email = request.getParameter("email");
-		    String number = request.getParameter("number");
+        UserProfileService service = new UserProfileService();
+        String errorMessage = null;
 
-		    // Handle image upload (if selected)
-		    Part filePart = request.getPart("image");
-		    String imagePath = null;
+        try {
+            LocalDate parsedDob = LocalDate.parse(dob);
+            LocalDate today = LocalDate.now();
+            LocalDate minAllowedDob = today.minusYears(16);
 
-		    if (filePart != null && filePart.getSize() > 0) {
-		    	 ImageUtil imageUtil = new ImageUtil();
-		         boolean isUploaded = imageUtil.uploadImage(filePart, "people", request);
+            if (parsedDob.isAfter(today)) {
+                errorMessage = "Date of birth cannot be in the future.";
+            } else if (parsedDob.isAfter(minAllowedDob)) {
+                errorMessage = "You must be at least 16 years old.";
+            } else if (!isValidPhoneNumber(number)) {
+                errorMessage = "Phone number must start with +977 and contain exactly 10 digits after that.";
+            } else if (service.isPhoneUsedByOtherUser(userId, number)) {
+                errorMessage = "Phone number is already used by another account.";
+            }
 
-		         if (isUploaded) {
-		             // Set image path after successful upload
-		             imagePath = "resources/img/people/" + imageUtil.getImageNameFromPart(filePart);
-		         }
-		    }
+            if (errorMessage != null) {
+                request.setAttribute("updateError", errorMessage);
+                request.setAttribute("user", service.getUserDetails(userId));
+                request.getRequestDispatcher("/WEB-INF/pages/editProfile.jsp").forward(request, response);
+                return;
+            }
 
-		    // Populate model
-		    UserModel user = new UserModel();
-		    user.setId(userId);
-		    user.setFullName(fullName);
-		    
-		    user.setAddress(address);
-		    user.setDob(LocalDate.parse(dob));
-		    user.setEmail(email);
-		    user.setNumber(number);
+            // Image upload (optional)
+            Part filePart = request.getPart("image");
+            String imagePath = null;
 
-		    if (imagePath != null) {
-		        user.setImagePath(imagePath);
-		    }
+            if (filePart != null && filePart.getSize() > 0) {
+                ImageUtil imageUtil = new ImageUtil();
+                boolean isUploaded = imageUtil.uploadImage(filePart, "people", request);
+                if (isUploaded) {
+                    imagePath = "resources/img/people/" + imageUtil.getImageNameFromPart(filePart);
+                }
+            }
 
-		    // Call service to update user
-		    UserProfileService service = new UserProfileService();
-		    boolean updated = service.updateUser(user);
+            // Populate and update user
+            UserModel user = new UserModel();
+            user.setId(userId);
+            user.setFullName(fullName);
+            user.setAddress(address);
+            user.setDob(parsedDob);
+            user.setEmail(email);
+            user.setNumber(number);
+            if (imagePath != null) {
+                user.setImagePath(imagePath);
+            }
 
-		    if (updated) {
-		        response.sendRedirect("userProfile");
-		    } else {
-		        request.setAttribute("updateError", "Profile update failed.");
-		        request.getRequestDispatcher("/WEB-INF/pages/editProfile.jsp").forward(request, response);
-		    }
-	}
+            boolean updated = service.updateUser(user);
 
+            if (updated) {
+                response.sendRedirect("userProfile");
+            } else {
+                request.setAttribute("updateError", "Profile update failed.");
+                request.setAttribute("user", service.getUserDetails(userId));
+                request.getRequestDispatcher("/WEB-INF/pages/editProfile.jsp").forward(request, response);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("updateError", "Invalid input or unexpected error.");
+            request.setAttribute("user", service.getUserDetails(userId));
+            request.getRequestDispatcher("/WEB-INF/pages/editProfile.jsp").forward(request, response);
+        }
+    }
+
+    // ✅ Proper Nepali phone number validation
+    private boolean isValidPhoneNumber(String phone) {
+        return phone != null && phone.matches("\\+977\\d{10}");
+    }
 }

@@ -134,6 +134,20 @@ public class ProductService {
 
         return false;
     }
+    public boolean productNameExists(String name) {
+        String query = "SELECT COUNT(*) FROM products WHERE productName = ?";
+        try (PreparedStatement stmt = dbConn.prepareStatement(query)) {
+            stmt.setString(1, name);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public ProductModel getProductById(int productId) {
         ProductModel product = null;
         String sql = "SELECT * FROM products WHERE productId = ?";
