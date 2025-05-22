@@ -80,5 +80,19 @@ public class RegisterService {
 	    }
 	    return false;
 	}
+	public boolean isUsernameExists(String username) {
+	    String query = "SELECT COUNT(*) FROM users WHERE user_userName = ?";
+	    try (PreparedStatement stmt = dbConn.prepareStatement(query)) {
+	        stmt.setString(1, username);
+	        ResultSet rs = stmt.executeQuery();
+	        if (rs.next()) {
+	            return rs.getInt(1) > 0;
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return false;
+	}
+
 
 }

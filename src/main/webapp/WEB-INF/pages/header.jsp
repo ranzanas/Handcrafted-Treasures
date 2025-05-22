@@ -24,7 +24,7 @@
 	      </h2>
 	      <div class="navigationBar">
 	        <ul id="navbar">
-	          <li><a class="active" href="${pageContext.request.contextPath}/home">Home</a></li>
+	          <li><a href="${pageContext.request.contextPath}/home">Home</a></li>
 	          <li><a href="${pageContext.request.contextPath}/shop">Shop</a></li>
 	          <li><a href="${pageContext.request.contextPath}/blog">Blog</a></li>
 	          <li><a href="${pageContext.request.contextPath}/about">About</a></li>

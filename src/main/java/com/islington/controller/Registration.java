@@ -16,14 +16,10 @@ import com.islington.service.RegisterService;
 import com.islington.util.ImageUtil;
 import com.islington.util.PasswordUtil;
 
-/**
- * Servlet implementation class Registration
- */
 @WebServlet(asyncSupported = true, urlPatterns = { "/Registration" })
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
         maxFileSize = 1024 * 1024 * 10, // 10MB
         maxRequestSize = 1024 * 1024 * 50) // 50MB
-
 public class Registration extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -50,13 +46,15 @@ public class Registration extends HttpServlet {
 
         String errorMessage = null;
 
-        // Validation logic
+        // Validation
         if (!isValidName(fullName)) {
-            errorMessage = "Invalid name format! Please check your full name";
+            errorMessage = "Invalid name format! Please check your full name.";
         } else if (!isValidUsername(username)) {
-            errorMessage = "Username must be at least 6 characters long and contain no special characters";
+            errorMessage = "Username must be at least 6 characters long and contain no special characters.";
         } else if (!isValidBirthday(birthday)) {
-            errorMessage = "Please enter a valid birthday and user must be above 16 for registration";
+            errorMessage = "Please enter a valid birthday and user must be above 16 for registration.";
+        } else if (registerService.isUsernameExists(username)) {
+            errorMessage = "Username already exists. Please choose a different one.";
         } else if (!isValidPhoneNumber(phone)) {
             errorMessage = "Please enter a valid phone number!";
         } else if (registerService.isPhoneExists(phone)) {
@@ -66,47 +64,49 @@ public class Registration extends HttpServlet {
         }
 
         if (errorMessage != null) {
-            System.out.println("Error: " + errorMessage);  // Show error in Eclipse console
             request.setAttribute("errorMessage", errorMessage);
             request.getRequestDispatcher("/WEB-INF/pages/registration.jsp").forward(request, response);
             return;
         }
 
         try {
-            UserModel userModel = extractUserModel(request);
+            // Upload image first
+            Part imagePart = request.getPart("image");
+            String imagePath = null;
+
+            if (imagePart != null && imagePart.getSize() > 0) {
+                boolean uploaded = imageUtil.uploadImage(imagePart, "people", request);
+                if (uploaded) {
+                    imagePath = "resources/img/people/" + imageUtil.getImageNameFromPart(imagePart);
+                } else {
+                    handleError(request, response, "Image upload failed.");
+                    return;
+                }
+            }
+
+            // Create user model with uploaded image path
+            UserModel userModel = extractUserModel(request, imagePath);
             Boolean isAdded = registerService.addUser(userModel);
 
-			if (isAdded == null) {
-				handleError(request, response, "Our server is under maintenance. Please try again later!");
-			} else if (isAdded) {
-				try {
-					if (uploadImage(request)) {
-						handleSuccess(request, response, "Your account is successfully created!");
-					} else {
-						handleError(request, response, "Could not upload the image. Please try again later!");
-					}
-				} catch (IOException | ServletException e) {
-					handleError(request, response, "An error occurred while uploading the image. Please try again later!");
-					e.printStackTrace(); // Log the exception
-				}
-			} else {
-				handleError(request, response, "Could not register your account. Please try again later!");
-			}
-		} catch (Exception e) {
-			handleError(request, response, "An unexpected error occurred. Please try again later!");
-			e.printStackTrace(); // Log the exception
-		}
-	}
-    
-	private boolean uploadImage(HttpServletRequest req) throws IOException, ServletException {
-		Part image = req.getPart("image");
-		return imageUtil.uploadImage(image, "people", req);
-	}
-	private void handleSuccess(HttpServletRequest req, HttpServletResponse resp, String message)
-			throws ServletException, IOException {
-		req.setAttribute("success", message);
-		req.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(req, resp);
-	}
+            if (isAdded == null) {
+                handleError(request, response, "Our server is under maintenance. Please try again later!");
+            } else if (isAdded) {
+                handleSuccess(request, response, "Your account is successfully created!");
+            } else {
+                handleError(request, response, "Could not register your account. Please try again later!");
+            }
+
+        } catch (Exception e) {
+            handleError(request, response, "An unexpected error occurred. Please try again later!");
+            e.printStackTrace();
+        }
+    }
+
+    private void handleSuccess(HttpServletRequest req, HttpServletResponse resp, String message)
+            throws ServletException, IOException {
+        req.setAttribute("success", message);
+        req.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(req, resp);
+    }
 
     private void handleError(HttpServletRequest req, HttpServletResponse resp, String message)
             throws ServletException, IOException {
@@ -114,7 +114,7 @@ public class Registration extends HttpServlet {
         req.getRequestDispatcher("/WEB-INF/pages/registration.jsp").forward(req, resp);
     }
 
-    private UserModel extractUserModel(HttpServletRequest req) throws Exception {
+    private UserModel extractUserModel(HttpServletRequest req, String imagePath) throws Exception {
         String fullName = req.getParameter("fullName");
         String username = req.getParameter("username");
         String address = req.getParameter("address");
@@ -124,17 +124,14 @@ public class Registration extends HttpServlet {
         String password = req.getParameter("password");
 
         password = PasswordUtil.encrypt(username, password);
-		Part image = req.getPart("image");
-		String imagePath = imageUtil.getImageNameFromPart(image);
 
         UserModel user = new UserModel(0, fullName, username, address, dob, email, number, password, imagePath);
         user.setRole("Customer");
         user.setImagePath(imagePath);
         return user;
-        
     }
 
-    // Helper methods for validations
+    // Validation methods
     private boolean isValidName(String fullName) {
         return !fullName.matches(".*\\d.*") &&
                !fullName.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*");
@@ -149,18 +146,16 @@ public class Registration extends HttpServlet {
         try {
             LocalDate birthDate = LocalDate.parse(birthday);
             LocalDate today = LocalDate.now();
-            LocalDate minAllowedDob = today.minusYears(16); // 16 years ago
-
-            return !birthDate.isAfter(minAllowedDob); // Must be 16 or older
+            LocalDate minAllowedDob = today.minusYears(16);
+            return !birthDate.isAfter(minAllowedDob);
         } catch (Exception e) {
-            return false; // Invalid format
+            return false;
         }
     }
 
     private boolean isValidPhoneNumber(String phone) {
         return phone.startsWith("+") && phone.length() == 14;
     }
-    
 
     private boolean isValidPassword(String password, String retypePassword) {
         return password.length() > 6 &&
@@ -169,5 +164,4 @@ public class Registration extends HttpServlet {
                password.matches(".*[A-Z].*") &&
                password.equals(retypePassword);
     }
-    
 }

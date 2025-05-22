@@ -121,7 +121,7 @@ public class EditProfileController extends HttpServlet {
         }
     }
 
-    // ✅ Proper Nepali phone number validation
+   
     private boolean isValidPhoneNumber(String phone) {
         return phone != null && phone.matches("\\+977\\d{10}");
     }
