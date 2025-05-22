@@ -13,7 +13,6 @@ import com.islington.model.ProductModel;
 import com.islington.service.OrderListService;
 import com.islington.service.ProductService;
 import com.islington.service.UserListService;
-import com.islington.service.UserProfileService;
 
 /**
  * Servlet implementation class AdminDashboard
@@ -21,10 +20,12 @@ import com.islington.service.UserProfileService;
 @WebServlet(asyncSupported = true, urlPatterns = { "/adminDashboard" })
 public class AdminDashboardController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+
+	// Services used to retrieve data from database
 	private ProductService productService = new ProductService();
 	private UserListService userService = new UserListService();
 	private final OrderListService orderListService = new OrderListService();
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -34,32 +35,42 @@ public class AdminDashboardController extends HttpServlet {
     }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * Handles GET request to the admin dashboard.
+	 * Gathers statistics and data needed for displaying dashboard overview:
+	 * - All products
+	 * - All orders (with user info)
+	 * - Total revenue
+	 * - Total user count
+	 * - Product count
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		// Fetch all products
         List<ProductModel> productList = productService.getAllProducts();
+
+		// Fetch all orders with user information
 	 	List<OrderModel> orderList = orderListService.getAllOrdersWithUserInfo();
+
+        // Calculate dashboard metrics
         int totalOrders = orderList.size();
         double totalRevenue = orderListService.getTotalRevenue();
         int userCount = userService.getTotalUserCount();
 
+        // Set attributes to be accessed in JSP
         request.setAttribute("orderCount", totalOrders);
         request.setAttribute("totalRevenue", totalRevenue);
         request.setAttribute("userCount", userCount);
         request.setAttribute("productList", productList);
         request.setAttribute("productCount", productList.size());
 
+        // Forward to admin dashboard JSP page
         request.getRequestDispatcher("/WEB-INF/pages/adminDashboard.jsp").forward(request, response);
     }
 
-
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * Handles POST requests the same way as GET.
+	 * This makes form submissions or AJAX calls behave the same as page loads.
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-
 }

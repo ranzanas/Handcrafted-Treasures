@@ -8,9 +8,16 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Service class for handling order-related operations such as
+ * retrieving all orders, user-specific orders, and total revenue.
+ */
 public class OrderListService {
     private Connection conn;
 
+    /**
+     * Constructor initializes the database connection.
+     */
     public OrderListService() {
         try {
             conn = DbConfig.getDbConnection();
@@ -19,6 +26,12 @@ public class OrderListService {
         }
     }
 
+    /**
+     * Retrieves all orders along with user and product info.
+     * Useful for admin dashboards to display full order details.
+     *
+     * @return List of OrderModel objects
+     */
     public List<OrderModel> getAllOrdersWithUserInfo() {
         List<OrderModel> orders = new ArrayList<>();
 
@@ -30,10 +43,11 @@ public class OrderListService {
             JOIN users u ON u.userId = uop.userId
             JOIN products p ON p.productId = uop.productId
             ORDER BY o.orderId DESC
-            """;
+        """;
 
         try (PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
+
             while (rs.next()) {
                 OrderModel order = new OrderModel();
                 order.setOrderId(rs.getInt("orderId"));
@@ -42,8 +56,6 @@ public class OrderListService {
                 order.setDeliveryAddress(rs.getString("deliveryAddress"));
                 order.setTotalAmount(rs.getDouble("totalAmount"));
                 order.setPaymentMethod(rs.getString("paymentMethod"));
-
-                // TEMP: Store user/product names in description fields
                 order.setUserName(rs.getString("userFullName"));
                 order.setProductName(rs.getString("productName"));
 
@@ -55,6 +67,11 @@ public class OrderListService {
         return orders;
     }
 
+    /**
+     * Calculates the total revenue from all orders.
+     *
+     * @return double value representing total sales revenue
+     */
     public double getTotalRevenue() {
         String sql = "SELECT SUM(totalAmount) FROM orders";
         try (PreparedStatement stmt = conn.prepareStatement(sql);
@@ -65,7 +82,14 @@ public class OrderListService {
         }
         return 0;
     }
-    
+
+    /**
+     * Retrieves all orders placed by a specific user.
+     * Includes product details for each order.
+     *
+     * @param userId ID of the user
+     * @return List of OrderModel objects
+     */
     public List<OrderModel> getOrdersByUserId(int userId) {
         List<OrderModel> orders = new ArrayList<>();
         String sql = """
@@ -100,6 +124,4 @@ public class OrderListService {
 
         return orders;
     }
-
 }
-

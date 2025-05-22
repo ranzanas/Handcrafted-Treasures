@@ -2,32 +2,45 @@ package com.islington.model;
 
 import java.time.LocalDate;
 
+/**
+ * Represents an item in a user's shopping cart.
+ * Includes both cart-specific data and related product details.
+ */
 public class CartModel {
-	private int cartId;
-	private int userId;
-	private int productId;
-	private LocalDate cartCreatedDate;
-	private int cartProductQuantity;
-	
-	private String productName;
-    private String productImage;
-    private double productPrice;
+	private int cartId;                  // Unique identifier for the cart entry
+	private int userId;                  // ID of the user who owns the cart
+	private int productId;               // ID of the product added to the cart
+	private LocalDate cartCreatedDate;   // Date the item was added to the cart
+	private int cartProductQuantity;     // Quantity of the product in the cart
+
+	// Additional product details for display purposes
+	private String productName;          // Name of the product
+    private String productImage;         // Image URL or path of the product
+    private double productPrice;         // Price per unit of the product
+
+    /**
+     * Default constructor.
+     */
 	public CartModel() {
 	}
 
-	public CartModel(int cartId, int userId, int productId,   LocalDate cartCreatedDate,
-			int cartProductQuantity,String productName, String productImage, double productPrice) {
+	/**
+	 * Parameterized constructor to initialize all fields.
+	 */
+	public CartModel(int cartId, int userId, int productId, LocalDate cartCreatedDate,
+					 int cartProductQuantity, String productName, String productImage, double productPrice) {
 		super();
 		this.cartId = cartId;
 		this.userId = userId;
-		this.setProductId(productId);
+		this.productId = productId;
 		this.cartCreatedDate = cartCreatedDate;
 		this.cartProductQuantity = cartProductQuantity;
-		this.productName= productName;
+		this.productName = productName;
 		this.productImage = productImage;
 		this.productPrice = productPrice;
 	}
 
+	// Getters and Setters
 	public int getCartId() {
 		return cartId;
 	}
@@ -44,12 +57,12 @@ public class CartModel {
 		this.userId = userId;
 	}
 
-	public String getProductName() {
-		return productName;
+	public int getProductId() {
+		return productId;
 	}
 
-	public void setProductName(String productName) {
-		this.productName = productName;
+	public void setProductId(int productId) {
+		this.productId = productId;
 	}
 
 	public LocalDate getCartCreatedDate() {
@@ -68,6 +81,14 @@ public class CartModel {
 		this.cartProductQuantity = cartProductQuantity;
 	}
 
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
 	public String getProductImage() {
 		return productImage;
 	}
@@ -83,13 +104,4 @@ public class CartModel {
 	public void setProductPrice(double productPrice) {
 		this.productPrice = productPrice;
 	}
-
-	public int getProductId() {
-		return productId;
-	}
-
-	public void setProductId(int productId) {
-		this.productId = productId;
-	}
-
 }

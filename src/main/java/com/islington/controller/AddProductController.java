@@ -1,4 +1,3 @@
-
 package com.islington.controller;
 
 import com.islington.model.ProductModel;
@@ -14,6 +13,9 @@ import jakarta.servlet.http.Part;
 
 import java.io.IOException;
 
+/**
+ * Servlet implementation class AddProductController
+ */
 @WebServlet(asyncSupported = true, urlPatterns = { "/addProduct" })
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
         maxFileSize = 1024 * 1024 * 10, // 10MB
@@ -21,27 +23,38 @@ import java.io.IOException;
 public class AddProductController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
+    // Service class to interact with the product database
     private final ProductService productService = new ProductService();
+    // Utility class for handling image-related tasks
     private final ImageUtil imageUtil = new ImageUtil();
 
     public AddProductController() {
         super();
     }
 
+    /**
+     * Handles GET requests to load the Add Product form page.
+     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.getRequestDispatcher("/WEB-INF/pages/addProduct.jsp").forward(request, response);
     }
 
+    /**
+     * Handles POST requests for adding a new product to the system.
+     * Validates input, checks for duplicate product name, handles image upload, and adds product.
+     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        // Read form inputs
         String name = request.getParameter("product-name");
         String desc = request.getParameter("product-desc");
         double price = Double.parseDouble(request.getParameter("product-price"));
         int quantity = Integer.parseInt(request.getParameter("product-qty"));
         String status = quantity > 0 ? "In Stock" : "Out of Stock";
 
+        // Input validation
         String errorMessage = null;
         if (name == null || name.trim().isEmpty()) {
             errorMessage = "Product name is required.";
@@ -53,6 +66,7 @@ public class AddProductController extends HttpServlet {
             errorMessage = "Quantity cannot be negative.";
         }
 
+        // If validation fails, show the error message on the form page
         if (errorMessage != null) {
             request.setAttribute("errorMessage", errorMessage);
             request.getRequestDispatcher("/WEB-INF/pages/addProduct.jsp").forward(request, response);
@@ -60,6 +74,7 @@ public class AddProductController extends HttpServlet {
         }
 
         try {
+            // Handle image upload
             Part imagePart = request.getPart("product-image");
             String imagePath = imageUtil.getImageNameFromPart(imagePart);
 
@@ -70,6 +85,7 @@ public class AddProductController extends HttpServlet {
                 return;
             }
 
+            // Create a new ProductModel object and populate with form data
             ProductModel product = new ProductModel();
             product.setProductName(name);
             product.setProductDescription(desc);
@@ -78,6 +94,7 @@ public class AddProductController extends HttpServlet {
             product.setProductStatus(status);
             product.setProductImage(imagePath);
 
+            // Save product to database
             boolean success = productService.addProduct(product);
 
             if (success) {
@@ -92,12 +109,18 @@ public class AddProductController extends HttpServlet {
         }
     }
 
+    /**
+     * Helper method to handle successful product addition.
+     */
     private void handleSuccess(HttpServletRequest request, HttpServletResponse response, String message)
             throws ServletException, IOException {
         request.setAttribute("success", message);
         request.getRequestDispatcher("/adminDashboard").forward(request, response);
     }
 
+    /**
+     * Helper method to handle errors and redirect to the form page with an error message.
+     */
     private void handleError(HttpServletRequest request, HttpServletResponse response, String message)
             throws ServletException, IOException {
         request.setAttribute("errorMessage", message);

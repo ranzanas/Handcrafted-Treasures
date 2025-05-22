@@ -26,28 +26,40 @@ public class EditProfileController extends HttpServlet {
         super();
     }
 
+    /**
+     * Handles GET request to load the edit profile page with existing user data.
+     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Integer userId = (Integer) request.getSession().getAttribute("userId");
 
         if (userId == null) {
+            // Redirect to login if user is not authenticated
             response.sendRedirect("login.jsp");
             return;
         }
 
+        // Fetch current user details
         UserProfileService service = new UserProfileService();
         UserModel user = service.getUserDetails(userId);
+
+        // Pass user data to editProfile.jsp
         request.setAttribute("user", user);
         request.getRequestDispatcher("/WEB-INF/pages/editProfile.jsp").forward(request, response);
     }
 
+    /**
+     * Handles POST request to update user profile with validation and optional image upload.
+     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Integer userId = (Integer) request.getSession().getAttribute("userId");
 
         if (userId == null) {
+            // User not logged in
             response.sendRedirect("login.jsp");
             return;
         }
 
+        // Fetch form inputs
         String fullName = request.getParameter("fullName");
         String address = request.getParameter("address");
         String dob = request.getParameter("dob");
@@ -62,6 +74,7 @@ public class EditProfileController extends HttpServlet {
             LocalDate today = LocalDate.now();
             LocalDate minAllowedDob = today.minusYears(16);
 
+            // Validate date of birth and phone number
             if (parsedDob.isAfter(today)) {
                 errorMessage = "Date of birth cannot be in the future.";
             } else if (parsedDob.isAfter(minAllowedDob)) {
@@ -72,6 +85,7 @@ public class EditProfileController extends HttpServlet {
                 errorMessage = "Phone number is already used by another account.";
             }
 
+            // If validation fails, reload form with error
             if (errorMessage != null) {
                 request.setAttribute("updateError", errorMessage);
                 request.setAttribute("user", service.getUserDetails(userId));
@@ -79,10 +93,9 @@ public class EditProfileController extends HttpServlet {
                 return;
             }
 
-            // Image upload (optional)
+            // Optional image upload
             Part filePart = request.getPart("image");
             String imagePath = null;
-
             if (filePart != null && filePart.getSize() > 0) {
                 ImageUtil imageUtil = new ImageUtil();
                 boolean isUploaded = imageUtil.uploadImage(filePart, "people", request);
@@ -91,7 +104,7 @@ public class EditProfileController extends HttpServlet {
                 }
             }
 
-            // Populate and update user
+            // Create updated user model
             UserModel user = new UserModel();
             user.setId(userId);
             user.setFullName(fullName);
@@ -103,6 +116,7 @@ public class EditProfileController extends HttpServlet {
                 user.setImagePath(imagePath);
             }
 
+            // Update user in database
             boolean updated = service.updateUser(user);
 
             if (updated) {
@@ -121,7 +135,9 @@ public class EditProfileController extends HttpServlet {
         }
     }
 
-   
+    /**
+     * Validates Nepali phone number format: +977 followed by exactly 10 digits.
+     */
     private boolean isValidPhoneNumber(String phone) {
         return phone != null && phone.matches("\\+977\\d{10}");
     }

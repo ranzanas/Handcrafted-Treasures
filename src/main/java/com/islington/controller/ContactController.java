@@ -17,7 +17,10 @@ import com.islington.service.FeedbackService;
 @WebServlet(asyncSupported = true, urlPatterns = { "/contact" })
 public class ContactController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
+	// Service to handle saving feedback to the database
 	private FeedbackService feedbackService = new FeedbackService();
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -27,37 +30,42 @@ public class ContactController extends HttpServlet {
     }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * Handles GET requests to load the contact form page.
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		// Forward user to the contact.jsp page
 		request.getRequestDispatcher("/WEB-INF/pages/contact.jsp").forward(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * Handles POST requests to submit feedback.
+	 * Ensures the user is logged in, collects feedback data, and saves it.
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		Integer userId = (Integer) request.getSession().getAttribute("userId"); // Logged in user
+		// Get logged-in user ID from session
+		Integer userId = (Integer) request.getSession().getAttribute("userId");
 
+        // Redirect to login if user is not authenticated
         if (userId == null) {
             response.sendRedirect("login.jsp");
             return;
         }
 
+        // Get feedback description from form
         String description = request.getParameter("feedbackDescription");
-        LocalDate date = LocalDate.now();
+        LocalDate date = LocalDate.now(); // Set current date
 
+        // Create and populate FeedbackModel
         FeedbackModel feedback = new FeedbackModel();
         feedback.setUserId(userId);
         feedback.setFeedbackDescription(description);
         feedback.setFeedbackDate(date);
 
+        // Save feedback to the database
         feedbackService.saveFeedback(feedback);
+
+        // Set thank you message and reload the contact page
         request.setAttribute("message", "Thank you for your feedback!");
         request.getRequestDispatcher("WEB-INF/pages/contact.jsp").forward(request, response);
-		
 	}
-
 }

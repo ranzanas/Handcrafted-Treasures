@@ -1,4 +1,3 @@
-
 package com.islington.service;
 
 import java.sql.Connection;
@@ -13,9 +12,15 @@ import java.util.List;
 import com.islington.config.DbConfig;
 import com.islington.model.CartModel;
 
+/**
+ * Handles business logic and database operations related to the shopping cart.
+ */
 public class CartService {
-	private Connection dbConn;
+    private Connection dbConn;
 
+    /**
+     * Constructor initializes database connection from DbConfig.
+     */
     public CartService() {
         try {
             dbConn = DbConfig.getDbConnection();
@@ -24,6 +29,13 @@ public class CartService {
         }
     }
 
+    /**
+     * Adds a product to the user's cart with default quantity 1.
+     *
+     * @param userId    ID of the user
+     * @param productId ID of the product to be added
+     * @return true if insertion was successful, false otherwise
+     */
     public boolean addToCart(int userId, int productId) {
         String insertQuery = "INSERT INTO cart (userId, productId, cartCreatedDate, cartProductQuantity) VALUES (?, ?, ?, ?)";
 
@@ -39,7 +51,10 @@ public class CartService {
             return false;
         }
     }
-    
+
+    /**
+     * Removes an item from the cart based on cart ID and user ID.
+     */
     public boolean removeFromCart(int cartId, int userId) {
         String deleteQuery = "DELETE FROM cart WHERE cartId = ? AND userId = ?";
 
@@ -52,7 +67,10 @@ public class CartService {
             return false;
         }
     }
-    
+
+    /**
+     * Updates the quantity of a specific cart item.
+     */
     public boolean updateCartQuantity(int cartId, int userId, int quantity) {
         String query = "UPDATE cart SET cartProductQuantity = ? WHERE cartId = ? AND userId = ?";
         try (PreparedStatement stmt = dbConn.prepareStatement(query)) {
@@ -65,6 +83,10 @@ public class CartService {
             return false;
         }
     }
+
+    /**
+     * Clears all items from the cart of a specific user.
+     */
     public void clearCart(int userId) {
         String sql = "DELETE FROM cart WHERE userId = ?";
         try (PreparedStatement ps = dbConn.prepareStatement(sql)) {
@@ -75,6 +97,12 @@ public class CartService {
         }
     }
 
+    /**
+     * Retrieves all cart items for a given user along with product details.
+     *
+     * @param userId ID of the user
+     * @return List of CartModel objects
+     */
     public List<CartModel> getCartItemsByUserId(int userId) {
         List<CartModel> cartItems = new ArrayList<>();
 

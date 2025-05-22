@@ -17,9 +17,11 @@ import com.islington.util.SessionUtil;
 
 /**
  * Servlet Filter implementation class AuthenticationFilter
+ * Restricts access to authenticated pages and redirects unauthenticated users to login.
  */
 @WebFilter(asyncSupported = true, urlPatterns = { "/*" })
 public class AuthenticationFilter extends HttpFilter implements Filter {
+	
 	private static final String LOGIN = "/login";
 	private static final String REGISTER = "/Registration";
 	private static final String HOME = "/home";
@@ -31,59 +33,54 @@ public class AuthenticationFilter extends HttpFilter implements Filter {
 	private static final String SHOP = "/shop";
 	private static final String USERPROFILE = "/userProfile";
 	private static final String EDITPROFILE = "/editProfile";
+
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		// TODO Auto-generated method stub
+		// Initialization logic if needed
 	}
-       
-
 
 	/**
-	 * @see Filter#destroy()
-	 */
-
-
-	/**
-	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
+	 * Filters incoming requests and applies session-based access control.
+	 * Allows public pages (home, login, registration, etc.) and static assets.
+	 * Redirects unauthenticated users trying to access protected routes.
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		// TODO Auto-generated method stub
-		// place your code here
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
 
 		String uri = req.getRequestURI();
 
-		if (uri.endsWith(".css") || uri.endsWith(".jpg") || uri.endsWith(".png")|| uri.endsWith(HOME) || uri.endsWith(ROOT)  
-	            ||  uri.endsWith(LOGIN) || uri.endsWith(REGISTER)|| uri.endsWith(ABOUT) || uri.endsWith(BLOG)) {
+		// Allow public assets like CSS, images, and public pages without login
+		if (uri.endsWith(".css") || uri.endsWith(".jpg") || uri.endsWith(".png") ||
+		    uri.endsWith(HOME) || uri.endsWith(ROOT) || uri.endsWith(LOGIN) ||
+		    uri.endsWith(REGISTER) || uri.endsWith(ABOUT) || uri.endsWith(BLOG)) {
 			chain.doFilter(request, response);
 			return;
 		}
 
-		// Get the session and check if user is logged in
+		// Check session for logged-in user
 		boolean isLoggedIn = SessionUtil.getAttribute(req, "username") != null;
 
 		if (!isLoggedIn) {
+			// Not logged in → allow access to login/registration only
 			if (uri.endsWith(LOGIN) || uri.endsWith(REGISTER)) {
 				chain.doFilter(request, response);
 			} else {
-				res.sendRedirect(req.getContextPath() + LOGIN);
+				res.sendRedirect(req.getContextPath() + LOGIN);  // redirect to login
 			}
 		} else {
+			// Logged in → restrict access to login/registration page
 			if (uri.endsWith(LOGIN) || uri.endsWith(REGISTER)) {
-				res.sendRedirect(req.getContextPath() + HOME);
+				res.sendRedirect(req.getContextPath() + HOME);  // redirect to homepage
 			} else {
-				chain.doFilter(request, response);
+				chain.doFilter(request, response);  // allow access
 			}
 		}
 	}
 
-
 	@Override
 	public void destroy() {
-		// TODO Auto-generated method stub
+		// Cleanup logic if needed
 		Filter.super.destroy();
 	}
-
 }
-

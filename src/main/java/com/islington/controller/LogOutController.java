@@ -12,6 +12,7 @@ import com.islington.util.SessionUtil;
 
 /**
  * Servlet implementation class LogOutController
+ * Handles user logout by clearing session and deleting cookies.
  */
 @WebServlet("/LogOutController")
 public class LogOutController extends HttpServlet {
@@ -26,22 +27,27 @@ public class LogOutController extends HttpServlet {
     }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * Handles GET requests for user logout.
+	 * Deletes role cookie and invalidates session, then redirects to home page.
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		// Remove the role cookie
 		CookieUtil.deleteCookie(response, "role");
+
+		// Invalidate the current user session
 		SessionUtil.invalidateSession(request);
-		response.sendRedirect(request.getContextPath() + "/home");
-	}
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		CookieUtil.deleteCookie(response, "role");
-		SessionUtil.invalidateSession(request);
+
+		// Redirect to homepage after logout
 		response.sendRedirect(request.getContextPath() + "/home");
 	}
 
+	/**
+	 * Handles POST requests for logout.
+	 * Performs the same steps as the GET method.
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		CookieUtil.deleteCookie(response, "role");
+		SessionUtil.invalidateSession(request);
+		response.sendRedirect(request.getContextPath() + "/home");
+	}
 }

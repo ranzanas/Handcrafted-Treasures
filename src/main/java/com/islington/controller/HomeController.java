@@ -12,12 +12,15 @@ import com.islington.model.ProductModel;
 import com.islington.service.ProductService;
 
 /**
+ * HomeController handles requests to the homepage and root URL.
+ * It loads the list of products and forwards them to the home view.
+ * 
  * @author Ranjana Silwal
  */
 @WebServlet(asyncSupported = true, urlPatterns = { "/home", "/" })
 public class HomeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -27,22 +30,28 @@ public class HomeController extends HttpServlet {
     }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * Handles GET requests to display the homepage.
+	 * Loads all products and forwards the data to home.jsp for rendering.
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		 ProductService productService = new ProductService();
-	     List<ProductModel> productList = productService.getAllProducts(); 
-	    request.setAttribute("productList", productList); 
+		// Initialize the product service
+		ProductService productService = new ProductService();
+
+		// Retrieve all products from the database
+	    List<ProductModel> productList = productService.getAllProducts();
+
+	    // Set the product list as a request attribute
+	    request.setAttribute("productList", productList);
+
+	    // Forward to home.jsp to display the products
 		request.getRequestDispatcher("/WEB-INF/pages/home.jsp").forward(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * Handles POST requests by delegating them to the GET handler.
+	 * Useful for form submissions that simply reload the page.
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-
 }
